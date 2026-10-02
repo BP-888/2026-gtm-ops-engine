@@ -5,7 +5,7 @@
 | SOP ID | SOP-2B-01 |
 | Phase | Phase 2: Broad TAM Mapping |
 | Component | Component 2B: Find Lookalikes |
-| Version | v0.1 |
+| Version | v0.2 |
 | Status | **Draft for Brad's review** |
 | Owner | Brad (Head of Sales & Operations) |
 | Last updated | 2 Oct 2026 |
@@ -42,23 +42,24 @@ Both feed **Phase 3** (Account Research → Scoring → Enriched TAL). This SOP 
 | Context: tiers, signals, verification rules | `00_global_context/account_scoring_and_enrichment.md` |
 | Context: competitor technographics (seed/negative signals) | `00_global_context/ermos_competitive_analysis.md` |
 | Context: partner and integrator routing | `00_global_context/meeting_ermos_comarket.md` |
+| Workflows.io technical reference | `[TO ADD: equivalent Workflows.io lookalike / TAM playbook URL]`. Automation design in section 6 is **not yet validated against Workflows.io** (CLAUDE.md rule) |
 | Vendor docs | Discolike: https://api.discolike.com/v1/docs/ · Ocean.io: https://app.ocean.io/docs · AI Ark: https://docs.ai-ark.com/ |
 
 ## 3. Tools Required
 
-All three lookalike engines are **candidates under test** (R-02OCT: no tool is locked in). Steps 4–6 below are the test that decides which ones are kept.
+All three lookalike engines are **confirmed for the pilot** (Brad, 2 Oct 2026): each is tested on a 30-record sample for Australian data accuracy. Steps 4–6 below are that test, and decide which engines are kept per vertical.
 
-| Tool | Role in this SOP | Known capability (vendor docs, checked 2 Oct 2026) | Access / credentials | Status |
+| Tool | Role in this SOP | Known capability (vendor docs, checked 2 Oct 2026) | Access / credentials | Stack status |
 |---|---|---|---|---|
-| **Discolike** | Lookalike engine A | Lookalike search from up to 10 seed domains, plus up to 10 "exclude-lookalikes-of" domains. Also takes natural-language ICP queries. Covers 70M+ domains in 180+ countries, built from website content. REST API, Python SDK, CLI. | API key in the n8n credential store | Candidate |
-| **Ocean.io** | Lookalike engine B | Lookalike companies from up to 10 seed domains. Minimum similarity score (default 0.79). Filters: primary country (HQ), size, industry, technographics, keywords, domains to exclude. REST API; Clay integration. | API key in the n8n credential store | Candidate |
-| **AI Ark** | Lookalike engine C | "AI Lookalike" company search inside Company Search. REST (JSON, `X-TOKEN` header). Also has a hosted MCP server and Clay templates. | API key in the n8n credential store | Candidate |
-| **n8n** | Orchestration: read seeds, call engines, normalise, dedupe, write files, notify | n/a | ERMOS n8n instance (hosting TBD) | Required |
-| **Google Sheets: ICP_Master** | Seed source; dedupe against Master, Holding and Exclusions | Drive `1cgunhz43AF45AReQm_IOSpdoI2L7MuTnx95icTH3INk` | Google service account (read; write only to the new tabs below) | Required |
-| **Google Sheets: Smartlead Extraction Register** | Dedupe against firms already extracted for outreach | Drive `1gmwkEl4Wa9udutJQoLfsLseOFeKLj3g783jT4aPQdJI` | Read | Required |
-| **Google Drive: `3. DATA / PIPELINE / 01_raw`** | Output hand-off folder for Phase 3 | Drive folder `1nIpskjvSHuK3dCXXubP9h_SeTXXn4bTe` (PIPELINE) | Write | Required |
-| **Slack** | Run summaries, flags and approval prompts | Channel TBD (e.g. `#gtm-pipeline`) | n8n Slack credential | Required |
-| **Claude (this repo)** | Seed-set QA, sample review support, run reports | n/a | n/a | Optional |
+| **Discolike** | Lookalike engine A | Lookalike search from up to 10 seed domains, plus up to 10 "exclude-lookalikes-of" domains. Also takes natural-language ICP queries. Covers 70M+ domains in 180+ countries, built from website content. REST API, Python SDK, CLI. | API key in the n8n credential store | **Approved exception** (pilot only) |
+| **Ocean.io** | Lookalike engine B | Lookalike companies from up to 10 seed domains. Minimum similarity score (default 0.79). Filters: primary country (HQ), size, industry, technographics, keywords, domains to exclude. REST API; Clay integration. | API key in the n8n credential store | **Approved exception** (pilot only) |
+| **AI Ark** | Lookalike engine C | "AI Lookalike" company search inside Company Search. REST (JSON, `X-TOKEN` header). Also has a hosted MCP server and Clay templates. | API key in the n8n credential store | **Approved exception** (pilot only) |
+| **n8n** | Orchestration: read seeds, call engines, normalise, dedupe, write files, notify | n/a | ERMOS n8n instance (hosting TBD) | **Core** |
+| **Google Sheets: ICP_Master** | Seed source; dedupe against Master, Holding and Exclusions | Drive `1cgunhz43AF45AReQm_IOSpdoI2L7MuTnx95icTH3INk` | Google service account (read; write only to the new tabs below) | **Pending Ask First** (existing working store; core alternative: Clay table + HubSpot) |
+| **Google Sheets: Smartlead Extraction Register** | Dedupe against firms already extracted for outreach | Drive `1gmwkEl4Wa9udutJQoLfsLseOFeKLj3g783jT4aPQdJI` | Read | **Pending Ask First** (core alternative: dedupe against Smartlead and HubSpot directly via n8n) |
+| **Google Drive: `3. DATA / PIPELINE / 01_raw`** | Output hand-off folder for Phase 3 | Drive folder `1nIpskjvSHuK3dCXXubP9h_SeTXXn4bTe` (PIPELINE) | Write | **Pending Ask First** (core alternative: a Clay table as the hand-off store) |
+| **Slack** | Run summaries, flags and approval prompts | Channel TBD (e.g. `#gtm-pipeline`) | n8n Slack credential | **Pending Ask First** (core alternative: HubSpot tasks and notifications) |
+| **Claude (this repo)** | Seed-set QA, sample review support, run reports | n/a | n/a | Optional; Claude Code is the authoring tool, not a runtime step |
 
 ## 4. The Absolutes (Non-negotiables)
 
@@ -280,9 +281,10 @@ These set `flagged`. Flagged rows stay in `01_raw` until reviewed in the run's r
 
 ## Open Items
 
+0. **Ask First (tools outside the Core Tech Stack):** Google Sheets (ICP_Master tabs), Google Drive (`01_raw`) and Slack. Choose: adopt them, use an alternative, or hack it with the core stack (Clay tables as the seed and candidate store, n8n dedupe against HubSpot and Smartlead, HubSpot tasks instead of Slack). Clay also has an Ocean.io integration, which could cut one direct API build. Discolike, Ocean.io and AI Ark are approved exceptions for the pilot only.
 1. **Spend caps:** the A$ cap per run, per tool, for pilot and batch. Vendor cost models (credits per result) need confirming during the pilot build.
 2. **Precision and yield thresholds:** confirm or replace the proposed starting targets in section 7.
-3. **Vendor accounts:** confirm which of Discolike, Ocean.io and AI Ark ERMOS will open trial or API accounts with, and who holds the credentials.
+3. **Vendor accounts:** all three are confirmed for the pilot (2 Oct). Still needed: who opens the accounts and holds the credentials.
 4. **n8n hosting and Slack channel:** where n8n runs (cloud or self-hosted), and the channel name for run alerts.
 5. **Seed approval:** confirm the beta customers can be used as seeds. This is internal use only; no customer data leaves ERMOS beyond the domain sent to the vendor API.
 6. **Vendor data handling:** confirm each vendor's terms allow storing returned company data in ICP_Master, and note each vendor's data location (seed domains are sent offshore to these APIs; company domains only, no client data).
@@ -294,3 +296,4 @@ These set `flagged`. Flagged rows stay in `01_raw` until reviewed in the run's r
 | Version | Date | Author | Change |
 |---|---|---|---|
 | v0.1 | 2 Oct 2026 | Claude Code for Brad | First draft, built to the CLAUDE.md SOP Template |
+| v0.2 | 2 Oct 2026 | Claude Code for Brad | Pilot of all three engines confirmed; n8n selected; Workflows.io validation placeholder added; tools marked against the Core Tech Stack, non-core tools pending Ask First |

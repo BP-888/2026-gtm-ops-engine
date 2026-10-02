@@ -61,3 +61,36 @@ Note: R3 was filed under Department "Enrichment" (closest existing option) rathe
 - Two `update_content` attempts on Claims Register: law failed on a non-matching old string (heading markup). They were retried with a smaller anchor and succeeded.
 - The target-audience line on the Claude guide was not found, so that edit was skipped.
 - No other errors.
+
+## Second pass: Brad's confirmations (2 Oct 2026)
+
+Applied by Claude Code session, 2 Oct 2026, after Brad confirmed C1 to C7. Edited pages carry "Updated 2 Oct 2026 per Brad's confirmations (Decisions Log)" (or equivalent wording at the changed line). No pages deleted. Nothing under `00.archive admin..00` touched. Historical Decisions Log entries not edited; only today's tier entry had its "pending confirmation" line removed.
+
+### New Decisions Log entry
+
+| Decision | Dept | URL |
+|---|---|---|
+| Confirmed: tier boundaries and T1/T2/T3 tags; HubSpot-only CRM; n8n orchestration; Automated Outbound is 1:1; lookalike pilot; Workflows.io as technical reference (C1 to C7). Date 2026-10-02, Decided by Brad, Verified Confirmed. Supersedes the "pending Brad's confirmation" status of the earlier 2 Oct entries and any HubSpot/Salesforce dual-CRM wording. | HQ | https://app.notion.com/p/3ed77626a80981049245e999723232af |
+
+### Pages touched (3, plus the new entry)
+
+| Page | URL | Change |
+|---|---|---|
+| Decisions Log: Firm size 1–50 staff ... account Tiers 1/2/3 (2 Oct entry) | https://app.notion.com/p/3ed77626a8098160be7cc4896b508c0f | "Pending Brad's confirmation" line on the 10/30 boundaries replaced with "Boundaries confirmed by Brad, 2 Oct 2026" (C1). |
+| Campaign Naming Standard | https://app.notion.com/p/3de77626a80981359117c6e9c0c1b53b | `T1`/`T2`/`T3` changed from proposal to approved in the update callout, section 3, job-by-Tier note and History; boundary line now confirmed (C1, C2); `t1-dm`-style link tags and CSV `tag` example marked approved as tokens, with the note kept that `cohortFor()`, the Apps Script, the live check page and email links must change together before new tags go live; Last ruled set to 2026-10-02. |
+| 00. Master System Brief & System Rules | https://app.notion.com/p/fed5a5b00a4f4e419bba969ead145643 | Removed "pending Brad's confirmation" from the Tier line (C1); added a CRM and orchestration line: HubSpot only, n8n runs all background workflows and CRM injection, Automated Outbound is 1:1 (C3, C4, C5); step 8 Feedback Loop names HubSpot; Phase 1 Integration Map now says n8n instead of Make.com and ends in HubSpot (C4). |
+
+C6 (lookalike pilot) and C7 (Workflows.io) are recorded in the new Decisions Log entry only; no existing page stated the opposite.
+
+### Salesforce mentions deliberately kept
+
+- None found in the live workspace. Notion search (AI search; keyword search not available on this connection) returned no page outside `00.archive admin..00` that names Salesforce as ERMOS's CRM, as "HubSpot/Salesforce", or as a prospect technographic. Nothing was removed. If finance ICP material later cites Salesforce Financial Services Cloud as a prospect technographic, it stays (C3).
+
+### Needs manual update
+
+1. **Apps Script implementation (C2):** update `cohortFor()` in the capture Apps Script to the confirmed Tier boundaries and new tags, redeploy, then change the live check page, handover doc and email links together. Until then the old `1-4`/`5-30`/`31-50` tags stay live.
+2. **T3 job values:** whether 5–9 staff firms in `T3` take roles other than `Decision_Makers` is still TBD (not covered by C1 to C7).
+3. **03 Tech Stack & Schema Registry** has no rows. HubSpot (CRM), n8n (orchestration), Discolike, Ocean.io and AI Ark (pilot) and Workflows.io (reference) should be registered there.
+4. **Salesforce sweep:** AI search may miss exact-string mentions. A manual Notion keyword search for "Salesforce" is advised to confirm none describe ERMOS's own CRM; Drive/PDF assets were not checked.
+5. **Still pending from the first pass, not covered by these confirmations:** Copilot/SOC 2 wording (Copilot positioning entry, Hormozi Standard, Claims Register still say "pending his confirmation"), Will's Dominion network check, partner terms TBDs, John A. agreement reconcile, Partner ICP Tier A/B, Dominion 10-seat minimum vs Tier 3.
+6. **Lookalike pilot (C6):** no SOP or task page exists yet for the 30-record Australian data-accuracy pilot.

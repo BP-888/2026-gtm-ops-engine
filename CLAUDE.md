@@ -43,7 +43,7 @@ When recommending or structuring campaigns, categorize them strictly by scale:
 
 ## QUALITY CONTROL (GOOD VS. BAD)
 - **BAD:** Providing a generic summary of a market. Mixing 1st and 3rd party signals. Using vague buyer stages like "Top of Funnel". Single-threaded contact lists.
-- **GOOD:** Multi-threaded contact mapping (Champion + DM + Influencer). Strict JSON/CSV outputs ready for HubSpot/Salesforce sync. Explicitly tagging accounts with exact Awareness Scores (Identified -> Selecting).
+- **GOOD:** Multi-threaded contact mapping (Champion + DM + Influencer). Strict JSON/CSV outputs ready for HubSpot sync. Explicitly tagging accounts with exact Awareness Scores (Identified -> Selecting).
 
 ## PLAYBOOK HIERARCHY
 The blueprint is `00_global_context/GTM_Playbook_2026.pdf`, mapped in `00_global_context/gtm_playbook_2026_flow.md` as **Phases → Components → SOPs**:
@@ -60,7 +60,7 @@ Every SOP uses exactly these sections, in this order. No section may be omitted;
 
 1. **Overview & Context:** what this SOP achieves and how it aligns with its Phase and the Final Output equation.
 2. **Visuals & References:** links or placeholders for the matching Figma graphics and Playbook section, plus the `00_global_context/` files it relies on.
-3. **Tools Required:** the specific software, plugins, skills and third-party apps, with each one's role, access or credential requirements, and test status (candidate / under test / selected).
+3. **Tools Required:** the specific software, plugins, skills and third-party apps, with each one's role, access or credential requirements, and stack status (`Core` / `Approved exception` / `Pending Ask First`; see Core Tech Stack).
 4. **The Absolutes (Non-negotiables):** strict baseline requirements that must be met **before starting** and **before completing** the task.
 5. **Step-by-Step Procedure:** the chronological, functional breakdown, saying exactly how each tool is used (inputs, settings, outputs).
 6. **Data Flow & Automation:** the expected **n8n** workflows (trigger, nodes, schedule, credentials, error handling, human-approval gates) and how data moves between systems (source → transform → destination, field-level schema, system of record).
@@ -73,9 +73,42 @@ Every SOP uses exactly these sections, in this order. No section may be omitted;
 
 Close every SOP with **Open Items** (decisions or facts still needed) and a **Change Log**.
 
+## CORE TECH STACK (Brad, 2 Oct 2026)
+These are the tools ERMOS uses and pays for. They are the **default for every workflow and SOP**:
+
+| Tool | Role |
+|---|---|
+| **HubSpot** | CRM and single source of truth |
+| **Clay** | Data enrichment and tiering |
+| **Smartlead AI** | Email sequencing and outreach |
+| **Apollo** | Data sourcing and contact info |
+| **n8n** | Automation plumbing and API routing |
+
+**Approved exceptions (outside the core stack, approved by Brad):**
+* Discolike, Ocean.io, AI Ark: **pilot only**, for the 30-record Australian lookalike accuracy test in SOP-2B-01 (2 Oct 2026). Adopting any of them after the pilot needs a new Ask First decision.
+
+### The "Ask First" rule
+If an SOP draft, a Workflows.io playbook, or Claude's own logic suggests a tool **not** in the Core Tech Stack or the approved exceptions:
+1. **Do not add it to the SOP.** Write the step using the core stack where possible.
+2. **Pause and flag the capability gap to Brad:** what capability is missing, which tool was suggested, and how the core stack could cover it instead (e.g. Apollo → Clay via n8n → HubSpot → Smartlead).
+3. **Ask Brad to choose:** (a) adopt the suggested tool, (b) use an alternative he prefers, or (c) hack it with the existing core stack.
+4. Record his answer in Notion 05 Decisions Log and, if approved, add the tool to the approved exceptions above.
+
+Every SOP's **Tools Required** table marks each tool as `Core`, `Approved exception` or `Pending Ask First`. An SOP can't be Approved while any tool is still `Pending Ask First`.
+
+## TECHNICAL REFERENCE BASELINE: WORKFLOWS.IO (Brad, 2 Oct 2026)
+The 9-Phase hierarchy, the business rules and the SOP template above are the **What and Why**. Workflows.io (`workflows.io/workflows`) is the **How**: the technical reference library for every SOP's **Data Flow & Automation** section (and the tool steps in the Procedure).
+* For every new SOP, first find the equivalent Workflows.io playbook. Reverse-engineer its plumbing (trigger, n8n nodes, API calls, Clay and HubSpot steps, field mappings) and adapt it to ERMOS rules: Australian firms only, 1–50 staff, Tiers 1–3, HubSpot only, n8n for orchestration, human-approval gates, no keys outside the n8n credential store.
+* Cite the playbook used (title and URL) in the SOP's Visuals & References section, and list every deviation from it with the ERMOS rule that caused it.
+* Workflows.io never overrides an ERMOS rule. Where it conflicts with this file or `00_global_context/`, ERMOS rules win.
+* If no equivalent playbook exists, or the page can't be accessed, say so in the SOP and mark its automation design "not yet validated against Workflows.io".
+
 ## STANDING RULES (2 Oct 2026)
-* Target firms of 1–50 staff; size-only account tiers: Tier 1 = 10–30, Tier 2 = 31–50, Tier 3 = 1–9; over 50 disqualified.
-* Tools are tested at each step, never locked in ahead of implementation.
+* **CRM:** HubSpot only. No Salesforce. **n8n** runs every background workflow and every CRM injection.
+* Target firms of 1–50 staff; size-only account tiers: Tier 1 = 10–30, Tier 2 = 31–50, Tier 3 = 1–9; over 50 disqualified. Campaign tags: `T1`, `T2`, `T3` (confirmed for every Campaign Naming Standard).
+* **Automated Outbound** is 1:1 outreach.
+* **Lookalike tools:** Discolike, Ocean.io and AI Ark are confirmed for a 30-record Australian accuracy pilot (SOP-2B-01).
+* The Core Tech Stack is the default. Tools outside it are added only through the Ask First rule, then tested before adoption.
 * ERMOS Dominion is "air-gapped": no egress; only inbound health-check pings and patch updates.
 * Naming: use "John Moustache" in internal documentation and "John A." in external documentation (same person).
 * Partner rules come from the IT Reseller Partner Agreement v0.8 as amended on 2 Oct 2026 (see `meeting_ermos_comarket.md`).
