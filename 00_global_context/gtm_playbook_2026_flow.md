@@ -1,79 +1,120 @@
-# GTM Playbook 2026: Flow Map
+# GTM Playbook 2026: Hierarchy Map
 
-**Purpose:** a text map of the "GTM Playbook 2026" blueprint (`GTM_Playbook_2026.pdf` in this folder, by Dan Rosenthal / workflo). It numbers the sections so each SOP can name exactly which box it covers.
-**Status:** Brad's governing blueprint ("the bible"), 2 Oct 2026. SOPs are written one section at a time, top to bottom.
-**Tools:** the tools listed are the ones whose logos appear in the diagram. They are the blueprint's examples, not ERMOS decisions. Each SOP decides the actual tools (see `CLAUDE.md`, SOP Authoring Standard, and the R-02OCT rule that tools are tested, not locked in). Logos without a readable label are marked "unlabelled".
+**Purpose:** the "GTM Playbook 2026" blueprint (`GTM_Playbook_2026.pdf` in this folder, by Dan Rosenthal / workflo) restructured as **Phases → Components → SOPs**, so every SOP has one fixed address.
+**Status:** Brad's governing blueprint ("the bible"). Restructured 2 Oct 2026.
 
-## Section order
+## Naming convention
 
-| # | Section | Boxes in the diagram | Tools shown |
+| Level | Definition | ID format | Example |
 |---|---|---|---|
-| S01 | **Backtest Model** | Backtest Model → CRM Sync → Closed Won (Analyze Highest Spend Customers; Interview AEs and CSMs) and Closed Lost (Look for Commonalities) → feeds ICP Model | HubSpot, Salesforce |
-| S02 | **ICP Model** | Firmographics · Technographics · Account Fit Signals | n/a |
-| S03 | **Broad TAM Map** | Firmographic Fits · Find Lookalikes | Firmographic: Apollo, Sales Navigator, ZoomInfo. Lookalikes: Discolike, Ocean.io, AI Ark |
-| S04 | **Account Research** | Account Research | Clay (logo) |
-| S05 | **Account Scoring** | Account Scoring → TIER 1 · TIER 2 · TIER 3 (Tier 1 has a dotted feedback loop from Focused Adspend) | Two unlabelled logos (one resembles Google, one an AI assistant) |
-| S06 | **Enriched Target Account List (TAL)** | Enriched TAL | n/a |
-| S07 | **ABM Ads** | ABM Ads → Focused Adspend (loops back to Tier 1) | HubSpot, LinkedIn |
-| S08 | **Contact Sourcing** | Decision Maker · Influencer · Champion | n/a |
-| S09 | **CRM Upload** | Companies · Custom Properties · Contacts | n/a |
-| S10 | **Signal Tracking** | 1st-Party · 2nd-Party · 3rd-Party (detail below) | see below |
-| S11 | **Awareness Score** | Identified → Aware → Interested → Considering → Selecting | n/a |
-| S12 | **Routing and Actions** | Custom Events/Objects · Lead Routing · CRM Tasks · Slack Notifications | Custom Events: HubSpot, Salesforce. Lead Routing: HubSpot, Salesforce, Clay. CRM Tasks: HubSpot, Salesforce. Slack |
-| S13 | **Demand Generation** | 1:1 and 1:Many (detail below) | see below |
-| S14 | **Push Back to CRM** | Push Back to CRM | HubSpot, Salesforce |
-| S15 | **GTM Flywheel** | Awareness → Education → Selection → Commit → Onboarding → Adoption → Expansion | n/a |
-| S16 | **Final Output** | Accounts Mapped + Company Tiers + Stakeholder Maps + Signals + Awareness Scores = Prioritization | n/a |
+| **Phase** | A major GTM milestone. One horizontal band of the blueprint. | `Phase N` | Phase 2: Broad TAM Mapping |
+| **Component** | A specific sub-module inside a Phase. One box (or box group) on the blueprint. | `Component NX` | Component 2B: Find Lookalikes |
+| **SOP** | An actionable, step-by-step guide living under one Component. A Component may have several. | `SOP-NX-##` | SOP-2B-01: Generating Lookalike Audiences |
 
-## S10 Signal Tracking: detail
+SOP files are named `SOP-NX-##_<Title_With_Underscores>.md` and saved in the repo folder that owns their Phase (table below).
 
-| Pillar | Signal | Tools shown |
+**Tools:** the tools listed for each Component are the blueprint's logos. They are candidates, not ERMOS decisions. Each SOP decides and tests the actual tools (R-02OCT: tools are tested at each step, never locked in). Logos without a readable label are marked "unlabelled".
+
+## Phase to folder ownership
+
+| Phase | Repo folder |
+|---|---|
+| Phase 1 | `01_backtest_and_icp/` |
+| Phases 2–3 | `02_tam_and_research/` |
+| Phase 4 and Phases 7–9 | `03_enrichment_and_activation/` |
+| Phases 5–6 | `04_signal_tracking/` |
+| Final Output | `outputs/` (generated artefacts) |
+
+---
+
+## Phase 1: Backtest and ICP Modeling
+*Learn from closed deals, then define who to target.*
+
+| Component | Blueprint boxes | Tools shown | SOPs |
+|---|---|---|---|
+| **1A: Backtest Model** | Backtest Model → CRM Sync → Closed Won (Analyze Highest Spend Customers; Interview AEs and CSMs) / Closed Lost (Look for Commonalities) | HubSpot, Salesforce | SOP-1A-01 Backtesting Closed Won and Closed Lost *(planned)* |
+| **1B: ICP Model** | Firmographics · Technographics · Account Fit Signals | n/a | SOP-1B-01 Building the ICP Model *(planned)* · SOP-1B-02 Aged Care ICP Brief *(planned, TASKS T-001)* |
+
+## Phase 2: Broad TAM Mapping
+*Turn the ICP into a broad list of candidate accounts.*
+
+| Component | Blueprint boxes | Tools shown | SOPs |
+|---|---|---|---|
+| **2A: Firmographic Fits** | Firmographic Fits | Apollo, Sales Navigator, ZoomInfo | SOP-2A-01 Firmographic TAM Pull *(planned)* |
+| **2B: Find Lookalikes** | Find Lookalikes | Discolike, Ocean.io, AI Ark | **SOP-2B-01 Generating Lookalike Audiences** *(Draft, 2 Oct 2026)* |
+
+## Phase 3: Account Research and Scoring
+*Verify, tier and package the accounts worth pursuing.*
+
+| Component | Blueprint boxes | Tools shown | SOPs |
+|---|---|---|---|
+| **3A: Account Research** | Account Research | Clay (logo) | SOP-3A-01 Account Verification and Research *(planned)* |
+| **3B: Account Scoring and Tiering** | Account Scoring → Tier 1 · Tier 2 · Tier 3 | Two unlabelled logos | SOP-3B-01 Size-Based Tiering *(planned)* |
+| **3C: Enriched Target Account List** | Enriched TAL | n/a | SOP-3C-01 Building the Enriched TAL *(planned)* |
+
+## Phase 4: ABM, Contact Sourcing and CRM Upload
+*Warm up Tier 1, find the buying committee, load the CRM.*
+
+| Component | Blueprint boxes | Tools shown | SOPs |
+|---|---|---|---|
+| **4A: ABM Ads and Focused Adspend** | ABM Ads → Focused Adspend (loops back to Tier 1) | HubSpot, LinkedIn | SOP-4A-01 Tier 1 ABM Ads *(planned)* |
+| **4B: Contact Sourcing** | Decision Maker · Influencer · Champion | n/a | SOP-4B-01 Buying Committee Mapping *(planned)* |
+| **4C: CRM Upload** | Companies · Custom Properties · Contacts | n/a | SOP-4C-01 CRM Upload and Property Schema *(planned)* |
+
+## Phase 5: Signal Tracking
+*Capture intent across the three pillars.*
+
+| Component | Signals | Tools shown |
 |---|---|---|
-| 1st-Party | CRM Data | HubSpot, Salesforce |
-| 1st-Party | Marketing Sequences | Beehiiv, Customer.io |
-| 1st-Party | Outreach Replies | Outbound Sync, Nooks |
-| 1st-Party | Product Usage | Amplitude, Mixpanel |
-| 1st-Party | Webinar Attendance | LinkedIn, Lu.ma |
-| 1st-Party | Gated Content | Webflow, Gamma |
-| 1st-Party | Website Visits | Warmly, RB2B |
-| 1st-Party | Meeting Forms | Chili Piper, Apollo |
-| 2nd-Party | Ad Engagements | ZenABM, Fibbler |
-| 2nd-Party | Partner Signals | Crossbeam, PartnerStack |
-| 2nd-Party | Review Sites | G2, Capterra |
-| 2nd-Party | LinkedIn Engagement | Jungler, Clay |
-| 2nd-Party | Champion Tracking | Clay, UserGems |
-| 2nd-Party | Warm Intros | Commsor, The Swarm |
-| 3rd-Party | Technographic Signals | BuiltWith, Sumble |
-| 3rd-Party | People Data | Clay, Apollo |
-| 3rd-Party | News | Clay, Google News |
-| 3rd-Party | Social Signals | Trigify, PhantomBuster |
-| 3rd-Party | Job Openings | TheirStack, PredictLeads |
-| 3rd-Party | Funding Announcements | Crunchbase, Pitchbook |
+| **5A: 1st-Party Signals** | CRM Data · Marketing Sequences · Outreach Replies · Product Usage · Webinar Attendance · Gated Content · Website Visits · Meeting Forms | HubSpot, Salesforce · Beehiiv, Customer.io · Outbound Sync, Nooks · Amplitude, Mixpanel · LinkedIn, Lu.ma · Webflow, Gamma · Warmly, RB2B · Chili Piper, Apollo |
+| **5B: 2nd-Party Signals** | Ad Engagements · Partner Signals · Review Sites · LinkedIn Engagement · Champion Tracking · Warm Intros | ZenABM, Fibbler · Crossbeam, PartnerStack · G2, Capterra · Jungler, Clay · Clay, UserGems · Commsor, The Swarm |
+| **5C: 3rd-Party Signals** | Technographic Signals · People Data · News · Social Signals · Job Openings · Funding Announcements | BuiltWith, Sumble · Clay, Apollo · Clay, Google News · Trigify, PhantomBuster · TheirStack, PredictLeads · Crunchbase, Pitchbook |
 
-All three pillars feed S11 Awareness Score. The 3rd-Party pillar also feeds S12 directly.
+SOPs: SOP-5A-01, SOP-5B-01 (uses `meeting_ermos_comarket.md` for partner signals), SOP-5C-01 *(all planned)*.
 
-## S13 Demand Generation: detail
+## Phase 6: Awareness Scoring
+*Convert signal density into one stage per account.*
 
-| Scale | Channel | Tools shown |
+| Component | Blueprint boxes | SOPs |
 |---|---|---|
-| 1:1 | Warm Intros | Gmail |
-| 1:1 | Gifting Campaigns | unlabelled logo |
-| 1:1 | Event Invites | unlabelled logo (sparkle) |
-| 1:1 | Manual Outreach | Apollo (logo) |
-| 1:Many | Automated Outbound | two unlabelled logos |
-| 1:Many | Parallel Dialing | unlabelled logo |
-| 1:Many | Targeting Ads | LinkedIn, Meta, Google |
-| 1:Many | Public Events | unlabelled logo (sparkle) |
-| 1:Many | Social Content | YouTube, LinkedIn, X |
-| 1:Many | On-Site Content | Webflow |
-| 1:Many | Video Outreach | unlabelled logo |
-| 1:Many | Connection Request | LinkedIn |
+| **6A: Awareness Score** | Identified → Aware → Interested → Considering → Selecting | SOP-6A-01 Awareness Stage Assignment *(planned)* |
 
-**Difference from `CLAUDE.md`:** the diagram puts **Automated Outbound under 1:Many**. `CLAUDE.md` section 4 lists it under 1:1. Brad to confirm which governs.
+## Phase 7: Routing and CRM Actions
+*Turn stage changes into actions.*
+
+| Component | Tools shown | SOPs |
+|---|---|---|
+| **7A: Custom Events/Objects** | HubSpot, Salesforce | SOP-7A-01 *(planned)* |
+| **7B: Lead Routing** | HubSpot, Salesforce, Clay | SOP-7B-01 *(planned; partner routing waits on the open partner questions)* |
+| **7C: CRM Tasks** | HubSpot, Salesforce | SOP-7C-01 *(planned)* |
+| **7D: Slack Notifications** | Slack | SOP-7D-01 *(planned)* |
+
+## Phase 8: Demand Generation
+*Activate accounts by scale.*
+
+| Component | Channels (tools shown) | SOPs |
+|---|---|---|
+| **8A: Demand Generation 1:1** | Warm Intros (Gmail) · Gifting Campaigns (unlabelled) · Event Invites (unlabelled) · Manual Outreach (Apollo) | SOP-8A-01 *(planned)* |
+| **8B: Demand Generation 1:Many** | Automated Outbound (two unlabelled) · Parallel Dialing (unlabelled) · Targeting Ads (LinkedIn, Meta, Google) · Public Events (unlabelled) · Social Content (YouTube, LinkedIn, X) · On-Site Content (Webflow) · Video Outreach (unlabelled) · Connection Request (LinkedIn) | SOP-8B-01 *(planned)* |
+
+**Difference from `CLAUDE.md`:** the blueprint puts Automated Outbound under 1:Many. `CLAUDE.md` section 4 lists it under 1:1. Brad to confirm which governs.
+
+## Phase 9: CRM Push-Back and GTM Flywheel
+*Close the loop and keep it turning.*
+
+| Component | Blueprint boxes | SOPs |
+|---|---|---|
+| **9A: Push Back to CRM** | Push Back to CRM (HubSpot, Salesforce) | SOP-9A-01 *(planned)* |
+| **9B: GTM Flywheel** | Awareness → Education → Selection → Commit → Onboarding → Adoption → Expansion | SOP-9B-01 *(planned)* |
+
+## Final Output
+**Accounts Mapped + Company Tiers + Stakeholder Maps + Signals + Awareness Scores = Prioritization.** This is produced in `outputs/`, not a Phase with its own SOPs.
+
+---
 
 ## ERMOS notes for SOP authors
 
-- **S01 Backtest:** ERMOS is early-stage. The closed-won base is the beta customers (law and accounting beta SoWs) plus any signed partners. There is little or no closed-lost data. The S01 SOP must say how the ICP is backtested with a small sample, and what gets captured from now on so the backtest gets stronger over time.
-- **CRM:** the blueprint shows HubSpot and Salesforce. ERMOS's system of record must be confirmed in S01 (HubSpot is connected to this workspace; Smartlead and ICP_Master are the current working stores).
-- **S05 tiers:** ERMOS Tier 1/2/3 are size-only (R-02OCT): Tier 1 = 10–30, Tier 2 = 31–50, Tier 3 = 1–9. In the blueprint, Tier 1 also gets Focused Adspend.
-- **S10 Partner Signals:** see `meeting_ermos_comarket.md`. Partner registration runs through the client's ERMOS backend instance.
+- **Phase 1 backtest:** ERMOS is early-stage. The closed-won base is the beta customers (law and accounting beta SoWs) plus any signed partners, with little or no closed-lost data. SOP-1A-01 must say how to backtest with a small sample, and what to capture from now on.
+- **CRM:** the blueprint shows HubSpot and Salesforce. ERMOS's system of record is confirmed in Phase 1 (HubSpot is connected to this workspace; ICP_Master and Smartlead are the current working stores).
+- **Component 3B tiers** are size-only (R-02OCT): Tier 1 = 10–30, Tier 2 = 31–50, Tier 3 = 1–9. In the blueprint, Tier 1 also gets Focused Adspend (4A).
+- **Order of drafting:** the default order is top to bottom. Brad chose SOP-2B-01 as the first SOP (2 Oct 2026). It assumes interim seed sets until SOP-1A-01 and SOP-1B-01 exist.

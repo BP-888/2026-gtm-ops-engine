@@ -45,16 +45,33 @@ When recommending or structuring campaigns, categorize them strictly by scale:
 - **BAD:** Providing a generic summary of a market. Mixing 1st and 3rd party signals. Using vague buyer stages like "Top of Funnel". Single-threaded contact lists.
 - **GOOD:** Multi-threaded contact mapping (Champion + DM + Influencer). Strict JSON/CSV outputs ready for HubSpot/Salesforce sync. Explicitly tagging accounts with exact Awareness Scores (Identified -> Selecting).
 
-## SOP AUTHORING STANDARD (Brad, 2 Oct 2026)
-The blueprint is `00_global_context/GTM_Playbook_2026.pdf`, mapped section by section in `00_global_context/gtm_playbook_2026_flow.md` (S01 to S16). SOPs are written **one section at a time, top to bottom**, and each SOP covers named sections only.
+## PLAYBOOK HIERARCHY
+The blueprint is `00_global_context/GTM_Playbook_2026.pdf`, mapped in `00_global_context/gtm_playbook_2026_flow.md` as **Phases → Components → SOPs**:
+* **Phase** (`Phase N`): a major GTM milestone, e.g. Phase 2: Broad TAM Mapping.
+* **Component** (`Component NX`): a specific sub-module within a Phase, e.g. Component 2B: Find Lookalikes.
+* **SOP** (`SOP-NX-##`): an actionable, step-by-step guide under one Component, e.g. SOP-2B-01: Generating Lookalike Audiences.
 
-Every SOP must explicitly define, for each section it covers:
-* **Tools:** the specific tools, skills, plugins or third-party apps used in this step.
-* **Application:** exactly how each tool is used (inputs, settings, steps, outputs).
-* **Automation:** the automated workflows expected to run through **n8n** (trigger, nodes, schedule, error handling, human-approval gates).
-* **Data Flow:** how data is injected into and extracted from each part of the business (source → transform → destination, with field-level schemas and the system of record).
+SOP files are named `SOP-NX-##_<Title_With_Underscores>.md` and saved in the folder that owns their Phase (see the ownership table in the hierarchy map). When an SOP is added or its status changes, update its row in the hierarchy map.
 
-SOP files live in the numbered stage folder that matches the section (e.g. S01–S02 in `01_backtest_and_icp/`), and are named `SOP_Sxx_<section>.md`.
+## SOP TEMPLATE (mandatory, Brad, 2 Oct 2026)
+Every SOP uses exactly these sections, in this order. No section may be omitted; write "Not applicable" with a reason if one truly doesn't apply.
+
+**Header block:** SOP ID and title · Phase · Component · Version · Status (Draft / Approved) · Owner · Last updated · Depends on (upstream SOPs) · Feeds (downstream SOPs).
+
+1. **Overview & Context:** what this SOP achieves and how it aligns with its Phase and the Final Output equation.
+2. **Visuals & References:** links or placeholders for the matching Figma graphics and Playbook section, plus the `00_global_context/` files it relies on.
+3. **Tools Required:** the specific software, plugins, skills and third-party apps, with each one's role, access or credential requirements, and test status (candidate / under test / selected).
+4. **The Absolutes (Non-negotiables):** strict baseline requirements that must be met **before starting** and **before completing** the task.
+5. **Step-by-Step Procedure:** the chronological, functional breakdown, saying exactly how each tool is used (inputs, settings, outputs).
+6. **Data Flow & Automation:** the expected **n8n** workflows (trigger, nodes, schedule, credentials, error handling, human-approval gates) and how data moves between systems (source → transform → destination, field-level schema, system of record).
+7. **Quality Assurance (QA) Guidelines:**
+   * **What "Good" Looks Like:** the ideal outcome and success metrics.
+   * **What "Bad" Looks Like:** common pitfalls and dirty data.
+8. **Exception Handling:**
+   * **Auto-Pass Criteria:** data outputs allowed to pass without human intervention.
+   * **Flagging Triggers:** anomalies that require manual review, with who reviews them and where.
+
+Close every SOP with **Open Items** (decisions or facts still needed) and a **Change Log**.
 
 ## STANDING RULES (2 Oct 2026)
 * Target firms of 1–50 staff; size-only account tiers: Tier 1 = 10–30, Tier 2 = 31–50, Tier 3 = 1–9; over 50 disqualified.
