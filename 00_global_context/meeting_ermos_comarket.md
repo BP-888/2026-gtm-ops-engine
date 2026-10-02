@@ -1,7 +1,7 @@
 # Meeting Ermos CoMarket: partner and co-marketing context
 
 **Purpose:** the baseline for 2nd-party "Partner Signals" and warm intros: partner tiers and terms, named partners, co-marketing motions, lead ownership, and the meeting decisions behind them.
-**Synthesised 2 Oct 2026 from Notion Ermos HQ, Google Drive and Wispr Flow. Updated 2 Oct 2026 with Brad's rulings [R-02OCT] and the 30 Sep partner package and meeting notes (Gmail).**
+**Synthesised 2 Oct 2026 from Notion Ermos HQ, Google Drive and Wispr Flow. Updated 2 Oct 2026 with Brad's rulings [R-02OCT], his partner rulings [R-02OCT-P], partner agreement v0.8 and the 30 Sep meeting notes.**
 **Status:** Draft for Brad's review.
 
 > **Source note.** No record titled "Meeting Ermos CoMarket" exists. Searches covered Drive and Notion titles and content ("CoMarket", "co-market", "co-marketing", "partner", "Mitronics", "Mayweathers", "founding partner", "webinar") and Wispr Flow by keyword and date. Wispr Flow returned no meetings at all. This file is built from:
@@ -10,7 +10,9 @@
 > (c) the two SLT Meeting #1 agendas (26 Aug) and the Founding Partner deck (27 Aug), for intent only. Their figures are mostly superseded (see the end of this file);
 > (d) Brad's **"Meeting Notes, Wed 30th September"** email to David and Will (Gmail), the most recent partner and distribution meeting record.
 
-> **Ground zero for partner rules [R-02OCT].** The partner documentation package Brad sent the week of 30 Sep 2026 is the absolute source of truth for partnership agreements. It is the Gmail thread "Partnership draft agreement" (30 Sep): Brad's **"ERMOS Partner Agreement - IT Reseller - 2026-09-30.docx"** sent to David, built from David's **"Ermos_Partner_Agreement_Template.docx"**. The agreement exists only as an email attachment and has **not been read directly** for this file. Section 2 below is the Notion transcription (Partner Standard Terms and the 30 Sep Decisions Log entries, which were ruled from David's template). Treat every term in section 2 as **pending confirmation against the package**. Where they differ, the package wins. Open questions are at the end of this file.
+> **Ground zero for partner rules [R-02OCT-P].** "ERMOS Partner Agreement - IT Reseller", **Draft v0.8, 30 Sep 2026** (Brad's package; read in full from the copy uploaded 2 Oct), as amended by Brad's partner rulings of 2 Oct 2026. Section 2 is built from that agreement and those rulings. Where Notion or older docs differ, section 2 wins.
+
+> **Naming rule.** John A. and John Moustache are the same person. Internal docs (including this repo) use **John Moustache**. External and partner-facing docs use **John A.**
 
 ---
 
@@ -28,40 +30,52 @@ All figures AUD, ex GST. Where an older doc disagrees, these win.
 
 ## 2. Partner tiers and terms
 
-**Status: pending confirmation against the 30 Sep partner package (ground zero, see top of file).**
+**Source of truth [R-02OCT-P]:** "ERMOS Partner Agreement - IT Reseller", **Draft v0.8, 30 Sep 2026** (Brad's package, uploaded 2 Oct), **as amended by Brad's partner rulings of 2 Oct 2026**. Where the rulings and v0.8 differ, the rulings win. The agreement text itself still needs updating to match (TASKS.md T-004). The Notion Partner Standard Terms are being updated to match this section.
 
-Current Notion transcription: **Partner Standard Terms: referral commission, Managed Service Partners and IT Resellers** (12 Partner Ecosystem, Approved, edited 1 Oct), 3e577626-a809-81dd-a522-dcc71b132db0.
+### 2.1 IT Reseller: commercial terms
 
-### 2.1 Referring partner (ruled 24 Sep)
-- Earns **25% of the recurring software subscription for the life of that subscription**.
-- Eligible client: Edge at 10 seats or more, or at least one Dominion unit.
-- **ERMOS owns the software contract and bills the client.** No commission on Dominion hardware or on partner services.
-- Supersedes the Business Plan's A$2,500 success-only referral fee. Source: "Hybrid pricing…" (24 Sep).
+| Term | Rule | Source |
+|---|---|---|
+| Appointment | Non-exclusive reseller of ERMOS Edge and ERMOS Dominion in an agreed territory. No sub-resellers without ERMOS's written agreement. | v0.8 cl 2.1, 2.3, 6.2 |
+| Commission | **25% of recurring software subscription Fees, for the life of the subscription**, when the partner takes on the client relationship. **Condition:** the partner provides a minimum level of ongoing service (a set number of hours, **number TBD**) to help the client and resolve tickets and issues in real time. If the service condition lapses, the commission condition is not met (consequence TBD). | Ruling 2 Oct (removes the 24-month Commission End Date in v0.8 cl 1.1, 8.1, D.1) |
+| Fees definition | Recurring software subscription only. Excludes the Dominion unit, one-off hardware and third-party professional services. | v0.8 cl 1.1, D.7 |
+| ERMOS-generated leads | Flat **15%** of subscription Fees when ERMOS passes the lead and the partner closes it, paid only while the partner stays on call as a managed service for a set number of hours (**number TBD**; managed service terms TBD). | v0.8 D.2 |
+| Achievement bonus | Extra **5%** on first-year new subscriptions above **A$100,000 net new ARR**, rolling four quarters. | v0.8 D.4 |
+| Invoicing | **ERMOS invoices every client directly** for the ongoing subscription and **remits the partner's commission monthly**. The partner-invoices / wholesale-rate option is retired. | Ruling 2 Oct (replaces v0.8 cl 2.2 partner form, 8.4(b), D.3 second half) |
+| Dominion setup fee | A$1,000 one-off per Dominion unit the partner deploys (working assumption: one day of setup). When it is paid is TBD. | v0.8 cl 8.7, D.6, D.8 |
+| Edge onboarding | No setup fee. Customers self-onboard. | v0.8 D.6 |
+| Onboarding call | Mandatory 1-hour call for every customer, Edge and Dominion. Who runs it is TBD in v0.8. (The 1 Oct Notion ruling made the Edge induction call partner-run and unpaid.) | v0.8 cl 3, Sched C |
+| Pricing | Partner negotiates within the **ERMOS pricing structure document** (covers 0–10 and 10–50 person firms; not published). Discounts agreed with ERMOS first. Price List changes need 30 days' notice before the next quarter. **The pricing structure document is not drafted** (TASKS.md T-002). | v0.8 cl 8.2, 8.3, D.9 |
+| Additional work | Indicative A$500/day for work beyond standard setup (skills, advanced ingestion, extra onboarding help). Whether it's fixed, a floor or a guide is TBD. Under the invoicing ruling, it's unclear who invoices partner service work (see questions). | v0.8 D.10 |
+| Late payment | 1.5% a month, or the legal maximum if lower | v0.8 cl 8.5 |
+| After termination | Commission continues on existing Customer Agreements, unless terminated for partner breach | v0.8 cl 14.4 |
 
-### 2.2 Managed Service Partner (integration partner, ruled 24 Sep)
-- An independent business that sets up and customises skills and agents for the client.
-- **Invoices the client directly and keeps 100% of its service revenue.**
-- Indicative rate **A$500/day**. This is conceptual only: it is being tested in the Mayweathers sandbox and is not a published rate.
-- **Edge induction call (ruled 1 Oct):** a mandatory 1-hour call, **partner-run and unpaid, whether ERMOS or the partner generated the lead.** The partner uses it to scope and sell its own AI Advisory and Workflow Management retainer.
-- Delivery is **onshore in Australia only**, with no offshore sales, onboarding or delivery staff (founders' decision, 24 Sep, recorded in the John A. agreement draft).
+### 2.2 Partner service packages (v0.8 D.11)
+ERMOS runs its own outbound marketing to direct customers to partners offering these packages. In internal docs they're called **service packages**, to avoid a clash with the account Tiers 1–3 in the scoring files.
 
-### 2.3 IT Reseller (ruled 30 Sep, from David's partner agreement template)
-Sources: 05 Decisions Log entries https://app.notion.com/3eb77626a80981218708debb059d13b1 , https://app.notion.com/3eb77626a80981dfb492d82285ca161a and https://app.notion.com/3eb77626a80981ce8a90e020283a2a2a , applied in Partner Standard Terms section 4.
-- **Non-exclusive** reseller of Edge and Dominion in an agreed territory. Places an Order per customer, which ERMOS may reject on reasonable grounds.
-- The Customer Agreement sits with ERMOS, or with the reseller if ERMOS approves the reseller's form.
-- The reseller negotiates price with the customer, but only **within the ERMOS pricing structure document**. That document is not yet written. Discounts are agreed with ERMOS before they are offered.
-- **Commission: 25% of recurring software subscription Fees.** Fees exclude the Dominion unit, one-off hardware and third-party services.
-- **Commission cap:** ends at the earlier of the end of the Customer Agreement or **24 months**.
-- **Dominion setup fee:** a one-off A$1,000 per unit deployed. Edge has no setup fee; customers self-onboard.
-- **Mandatory 1-hour onboarding call** for every customer.
-- **Invoicing:** if ERMOS holds the agreement, ERMOS invoices. If the reseller holds it, the reseller invoices the retail fee and ERMOS invoices the reseller at wholesale, net of commission.
-- **ERMOS-generated leads that the reseller closes:** commission is agreed in advance within a range (template clause D.2). **The range has not been set.**
-- **Achievement bonus:** paid above a rolling four-quarter Net New ARR target. Target and rate are set per partner and are not yet set.
+| Package (v0.8 label) | What the customer gets | Pricing |
+|---|---|---|
+| Service package 1 ("Tier 1: Onboarding") | Basic onboarding beyond the automated onboarding and the 1-hour call | TBD |
+| Service package 2 ("Tier 2: Workflows and systems") | Building out workflows and systems on ERMOS | Indicative A$500/day (to confirm) |
+| Service package 3 ("Tier 3: Managed service") | Bespoke, always-on managed service | TBD (monthly fee or guideline) |
 
-### 2.4 Rules for all tiers
-- ERMOS keeps the software contract (except under an approved reseller form), billing, pricing and platform support. Source: Partner Standard Terms section 3.
-- Partners describe ERMOS using **approved claims only**: Dominion as air-gapped under the [R-02OCT] definition (Claims Register C-002 needs re-issuing to match), C-004 (SOC 2) for Edge. Source: same page, the 30 Sep entry 3eb77626…59d13b1, and [R-02OCT].
-- Partners are **non-exclusive**. Conditions for any exclusivity are not defined. Source: Partner Standard Terms section 5.
+### 2.3 Deal registration and provisioning (ruling 2 Oct)
+1. The partner registers a deal by **confirming the client with ERMOS**.
+2. ERMOS **sets up the backend instance** for that client.
+3. Everything for that client, including invoicing details, is managed through that instance. The instance is the system of record for the client, the partner attribution and the commission basis.
+4. ERMOS may reject an Order on reasonable grounds, with reasons. An Order binds once the customer signs a Customer Agreement or a purchase order accepting its terms (v0.8 cl 3).
+
+### 2.4 Referring partner and Managed Service Partner (ruled 24 Sep; check against v0.8)
+- **Referring partner:** 25% for the life of the recurring subscription (eligible client: Edge 10+ seats or one Dominion unit). ERMOS owns the contract and bills the client. This is consistent with the 2 Oct invoicing ruling.
+- **Managed Service Partner:** sets up skills and agents, invoices the client directly for services, and keeps 100% of service revenue. Indicative A$500/day. Delivery onshore in Australia only.
+- v0.8 covers only the IT Reseller tier, so whether these two remain separate tiers or fold into the reseller agreement's service packages is an open question.
+
+### 2.5 Rules for all partners
+- Partners describe ERMOS using **approved Schedule B / Claims Register wording only**, and make no warranties beyond those authorised (v0.8 cl 5, 11.3).
+- **Schedule B in v0.8 is out of date:** it says Dominion has "management telemetry out". Under [R-02OCT] Dominion is air-gapped (no egress, only inbound health pings and patch updates). Schedule B must be updated before issue (TASKS.md T-004).
+- Partners are non-exclusive. ERMOS may appoint other partners. No volume of leads is committed (v0.8 cl 7).
+- Privacy Act compliance and Data Incident notification on both sides (v0.8 cl 15).
+- Variations must be in writing and confirmed on the ERMOS side by Will, David and Brad (v0.8 Part A s4).
 
 ## 3. Named partners and status
 
@@ -69,8 +83,7 @@ Only names already in company docs. No contact details here.
 
 | Partner | Type | Status at 2 Oct 2026 | Source |
 |---|---|---|---|
-| **John A.** (founding consultant) | Referring partner + Managed Service Partner | Agreement at **Draft v0.1 (24 Sep), not for issue**. Needs legal review. Legal name, entity and ABN still to be confirmed. Non-exclusive both ways. Equity is out of scope. | 12 Partner Ecosystem, 3e577626-a809-8141-be15-dcd82f494b6f |
-| **John Moustache** (external; possibly the same person as John A., to confirm) | Enterprise-grade technical advisor targeting integrators; technical authority at partner briefings and feedback channel at initial client meetings | 30 Sep: David to send him the services integration agreement; John to propose his preferred model (equity partner vs reseller/integrator), role and incentives, and to prioritise the Mayweathers proof of concept. **Equity is now on the table, contradicting the John A. draft.** | Gmail "Meeting Notes, Wed 30th September"; "Partnership draft agreement" thread |
+| **John Moustache** (external name: John A.) | Founding consultant. He is to act as the **hub, the central point of collaboration between AI consultants, managed service teams and IT integrators**. He is the technical authority at integrator briefings and the feedback channel at initial client meetings. | **Signing the partnership agreement.** He will present his intended level of involvement in the next week or two (from 2 Oct). The 24 Sep Notion draft (v0.1, referring + MSP, equity out of scope) is superseded by whatever he signs. On 30 Sep he was asked to propose his model (equity partner vs reseller/integrator) and to prioritise the Mayweathers proof of concept. | Brad ruling 2 Oct; Gmail "Meeting Notes, Wed 30th September"; 12 Partner Ecosystem 3e577626-a809-8141-be15-dcd82f494b6f |
 | **Mitronics** (spelt "Metronics" in the 26 Aug action log) | ICT and hardware supplier, an old client of Will's, already selling screens and monitors into law firms. Named as the first MSP channel partner and installer. | Action: **Will to approach as a legal-sector channel partner, due 16 Sep** (T30). The Business Plan has a Mitronics webinar in M1 and reseller/delivery terms negotiated in M4–6. **No agreement or outcome found.** | `tasks.json` (GTM & Partner Planning, 26 Aug); "ERMOS Dominion — Business Plan" (Draft), 3de77626-a809-81d8-a1e2-d1ed86866e6f |
 | **Mayweathers** | Law firm in a 90-day legal beta on Edge (a beta "partnership", **not a channel partner**). Its sandbox is where the A$500/day MSP rate is being tested. | SoW **Draft v1.1 (10 Sep)**, flagged stale by the 24 Sep pricing ruling. Planned as the first named case study. | Drive "Mayweathers 90-Day Legal Beta SoW v1.1", 1IAzuHe1b2-Dm5ZRRufd5j_ZwoER6IT3nAdHWx_MPY2I; "Hybrid pricing…" (24 Sep) |
 | **D&L Partners** | Accounting firm in a 90-day accounting beta on Edge (beta customer, not a channel partner) | SoW **Draft v1.1 (14 Sep)**, flagged stale by the 24 Sep ruling | Drive "2026-09-14 ERMOS 90-Day Accounting Beta SoW (D&L Partners)", 1ecLOuNgl8cw0e6GDlyWLCOilE69-kUzRHUqx79XNF2o |
@@ -83,8 +96,8 @@ Only names already in company docs. No contact details here.
 
 | Motion | What is on record | Status | Source |
 |---|---|---|---|
-| ERMOS outbound directing customers to partners | Directing customers to partners **by tier** is listed as "still in discussion", alongside the three partner service tiers and the A$500/day rate for extra work | **Not ruled** | 30 Sep entry https://app.notion.com/3eb77626a80981ce8a90e020283a2a2a |
-| Partner-led outreach | Partners refer clients and run discovery and onboarding for their own clients. Referral registration process is marked "[to confirm]". | Draft | John A. agreement draft |
+| ERMOS outbound directing customers to partners | ERMOS runs its own outbound to direct customers to partners offering service packages 1–3. The allocation rule, and whether the 15% ERMOS-lead rate applies, are TBD. | **Agreed in principle (v0.8 D.11); allocation not ruled** | Agreement v0.8 D.11 |
+| Partner-led outreach | Partners bring and register their own clients (section 2.3), run discovery, and deploy Dominion units | Ruled 2 Oct | Section 2.3 |
 | Partner collateral | "ERMOS Dominion — partner offer (IT consultants and MSPs)" v2.0, blue default and red alternate. The only CTA is Brad's booking calendar; no raw URLs. Four architecture claims are unsourced. Flagged stale on 24 Sep. | **Draft, do not distribute** | 10 Collateral, 3e377626-a809-81ab-9f46-dba102d1a0d6; harness: "Outbound Collateral Best Practice (Reference 02: Product & Partner Harness)" (Approved v1.0, 22 Sep), 3e377626-a809-812a-b040-cac9be11a284 |
 | Integrator Boardroom deck | Partner-facing deck. Brad's 1 Oct rulings added claims (signed and tested updates; no external model calls on Edge; one known location for Dominion data) as Proposed Changes, and expanded the integrator verticals. | Claims still Proposed | 06 Proposed Changes (e.g. 3ec77626-a809-8133-8d48-f3d7a83f18cd); Partner ICP page |
 | Founding partner programme | The 27 Aug deck pitches an enhanced founding commission, territory/vertical priority, co-marketing support (joint case studies, collateral, introductions) and input into certification and the roadmap. Founding cohort target: 3–5 signed by day 90. | **Pitch only; terms never ruled** | Drive "Ermos_Reseller_Partner_Presentation", 12TbojK9bmj9dcYOr3mI1AKdmplyNAExgKRvNVd1_SyM; SLT agenda 15vQdPm_qN7cb3wQ5mp2cKECzeSxWCmlmL20PDVGgMw4 |
@@ -98,15 +111,15 @@ Only names already in company docs. No contact details here.
 ## 5. Lead ownership and routing
 
 What is ruled:
-1. **Referred clients:** ERMOS signs and bills the client. The referring partner earns 25% for the life of the subscription if the client is eligible. Source: Partner Standard Terms section 1.
-2. **Edge induction call:** always run by the partner, unpaid, **regardless of who generated the lead**. Source: Partner Standard Terms section 2 (1 Oct).
-3. **IT Reseller and ERMOS-sourced leads:** commission is agreed in advance within a contract range. The range is not set. Source: Partner Standard Terms section 4.
-4. **IT Reseller orders:** ERMOS may accept or reject each Order. Discounts need ERMOS approval first. Source: same.
+1. **Deal registration:** the partner confirms the client with ERMOS. ERMOS sets up the client's backend instance, which then holds the client record, partner attribution and invoicing details (ruling 2 Oct; section 2.3).
+2. **Billing:** ERMOS invoices every client directly and remits partner commission monthly (ruling 2 Oct).
+3. **Partner-sourced clients:** 25% for life, provided the partner meets the minimum ongoing-service condition (ruling 2 Oct).
+4. **ERMOS-generated leads closed by a partner:** flat 15%, while the partner stays on call as a managed service (v0.8 D.2).
+5. **Orders:** ERMOS may accept or reject each Order with reasons. Discounts need ERMOS approval first (v0.8 cl 3, 8.2).
 
 What is not ruled (do not automate on these):
-- **Referral or deal registration.** The 27 Aug deck promised "register… and we protect the opportunity". The John A. draft marks registration "[to confirm]". The superseded 15 Sep Channel Partner Agreement draft proposed a 2-business-day confirmation and 90-day ownership, with a decline if the firm is already in an ERMOS campaign. None of this has been adopted.
-- **Conflict rule** where a firm is in both ERMOS outbound and a partner's book.
-- **Routing ERMOS outbound replies to partners by tier.**
+- **Conflict rule:** what happens when a partner registers a client that is already in an ERMOS outbound sequence or awareness stage, and how long a registration is protected.
+- **Allocation rule** for routing ERMOS-generated customers to partners (v0.8 D.11).
 
 ## 6. What counts as a Partner Signal (proposed mapping for `04_signal_tracking`)
 
@@ -114,7 +127,7 @@ This is not a ruling. It is a mapping drawn from the sources above, for Brad to 
 
 | Signal | Example evidence | Suggested routing |
 |---|---|---|
-| Partner referral or introduction | Named partner (e.g. John A.) introduces a 1–50-staff firm in an approved vertical | Warm Intro (1:1). Check eligibility (Edge 10+ seats or 1 Dominion unit). Record the referring partner for commission. |
+| Partner referral or introduction | Named partner (e.g. John Moustache) introduces a 1–50-staff firm in an approved vertical | Warm Intro (1:1). Check eligibility (Edge 10+ seats or 1 Dominion unit). Record the referring partner for commission. |
 | Founder-network warm intro | Lawyers (Will), accountants (Brad), the accounting firm (David) from the 26 Aug actions | Warm Intro (1:1). Founder owns the contact. |
 | Partner client-base overlap | Target firm is a known client of an integrator or MSP that meets the Partner ICP (Healthcare/Legal evidence, ISO 27001 / Essential Eight language, Copilot/LLM resale) | Hold for partner-led outreach. Do not cold-sequence until a conflict rule exists. |
 | Prospective partner engagement | An integrator books via the partner offer CTA, or engages with the Boardroom deck or founding partner deck | Route as a partner-recruitment prospect against the Partner ICP (no R-02OCT account tier), not as an end-customer signal |
@@ -147,28 +160,25 @@ This is not a ruling. It is a mapping drawn from the sources above, for Brad to 
 - **15 Sep Channel Partner Agreement draft** (Drive 155AreYUA_E9yreFOa85NEGlnUKVhwesidtXDZZqsarE). Its four roles and terms were never adopted: Closer 30%, Installer A$1,000 per site, Support Desk 10–15% trail, 40% stacking cap. The 24 Sep and 30 Sep standard replaced them. The only overlapping figure, A$1,000, now applies **per Dominion unit** to IT Resellers.
 - **27 Aug Founding Partner deck figures and claims:** "no per-seat licences / one price every employee", a Dominion-only referral, and mortgage and insurance brokers as verticals. Retired by the rulings of 24 Sep (verticals) and 28 Sep (per-seat pricing). (Its "air-gapped" wording is valid again under [R-02OCT], but only with the strict no-egress definition.)
 - **21 Sep retirement of "air-gapped"** and the C-002 wording "one-way health telemetry out". Superseded by [R-02OCT].
+- **v0.8 24-month Commission End Date, and the partner-invoices / wholesale-rate option** (cl 1.1, 2.2, 8.1, 8.4(b), D.1, D.3). Superseded by the 2 Oct partner rulings.
+- **John A. agreement Draft v0.1 (24 Sep)** as his engagement model. Superseded by the partnership agreement he is signing.
 - **24 Sep "outbound strictly 10–50 seats" band.** Superseded by [R-02OCT]: 1–50 staff, sized into Tiers 1–3.
 - **SLT agenda and Business Plan pricing:** A$2,599/unit/month, A$6,500 setup, A$10k/A$5k setup (T36), and Dominion flat bands (24 Sep). All replaced by the 28 Sep per-seat model.
 - **Master Q&A seat band of 15–100.** Replaced by 1–50 [R-02OCT].
 - **Dominion partner offer bullets** "No per-seat licensing: a fixed monthly fee per node", "firms up to 50 staff, sweet spot 5–30" and "high-margin hardware on every deployment". These conflict with per-seat pricing, with the 10–50 sweet spot, and with commission excluding hardware.
 - Notion "00.archive admin..00" pages (Hormozi warm-outreach playbooks, Sales & Market Intelligence). These are archived and were not relied on.
 
-## Questions for Brad: standardising partner rules from the 30 Sep package
+## Remaining partner questions for Brad
 
-Answers will be applied to section 2 and logged as rulings. Where the package already answers a question, a one-line pointer to the clause is enough.
+Answered on 2 Oct and applied: commission term, invoicing, deal registration, John's identity and naming, and package scope (agreement v0.8). Still open:
 
-1. **Package scope.** Is the package just the IT Reseller agreement (30 Sep) plus David's template, or are there other documents (referral agreement, MSP/services integration agreement, pricing structure, partner onboarding pack)? Please share the final versions in Drive or Notion so they can be read directly. The email attachments can't be opened from here.
-2. **Tiers.** Does the package keep three partner tiers (Referring partner, Managed Service Partner, IT Reseller), or does it merge or rename them?
-3. **Commission term.** IT Resellers get 25% capped at 24 months. Referrers get 25% for life. Is the package's term the same for both, and does commission survive the end of a partner agreement?
-4. **ERMOS-generated leads.** What is the commission range when a reseller closes a lead ERMOS generated (template clause D.2)?
-5. **Achievement bonus.** What are the Net New ARR target and bonus rate (D.4), or are they set per partner?
-6. **Pricing structure document.** Does the package include it? If not, who writes it and by when? It blocks every IT Reseller agreement (1 Oct audit).
-7. **Deal registration and conflicts.** How does a partner register a referral, how long is it protected, and who wins when a firm is already in an ERMOS outbound campaign?
-8. **Routing.** Which ERMOS-generated customers get directed to partners, and by what rule (vertical, region, tier, partner capacity)?
-9. **Onboarding and setup.** Who runs the onboarding call for Dominion and IT Reseller customers, and when is the A$1,000 Dominion setup fee paid?
-10. **Payment mechanics.** When is commission paid (monthly, quarterly, on client payment), and is there a clawback if a client cancels or doesn't pay?
-11. **Founding partners and exclusivity.** Does the package give founding partners any enhanced commission or territory priority, or is everything non-exclusive?
-12. **John.** Are "John A." and "John Moustache" the same person? Is his engagement the services integration agreement, the IT Reseller agreement, or an equity arrangement?
+1. **Minimum service hours:** how many hours of ongoing service per client keep the lifetime 25% (and the 15% on ERMOS leads) active? Is it per month? What happens if a partner falls short: is commission suspended, reduced, or the client reassigned?
+2. **Service work invoicing:** ERMOS now invoices the subscription. Do partners still invoice their own service work (service packages 1–3, the A$500/day work, the Dominion setup) directly, or does that also run through the ERMOS instance?
+3. **Registration conflicts:** if a partner registers a client that is already in an ERMOS campaign, who owns it, and how long is a registration protected?
+4. **Routing rule:** how are ERMOS-generated customers allocated to partners (vertical, region, service package, capacity, rotation)?
+5. **Onboarding call and setup fee:** who runs the mandatory 1-hour call for Dominion and reseller customers, and when is the A$1,000 setup fee paid?
+6. **Referring partner and MSP tiers:** do they stay as separate agreements, or fold into the reseller agreement and its service packages?
+7. **Pricing structure document:** who drafts it and by when? Every reseller agreement depends on it (TASKS.md T-002).
 
 ## Other open conflicts / gaps
 

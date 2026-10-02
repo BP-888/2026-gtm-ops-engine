@@ -44,3 +44,21 @@ When recommending or structuring campaigns, categorize them strictly by scale:
 ## QUALITY CONTROL (GOOD VS. BAD)
 - **BAD:** Providing a generic summary of a market. Mixing 1st and 3rd party signals. Using vague buyer stages like "Top of Funnel". Single-threaded contact lists.
 - **GOOD:** Multi-threaded contact mapping (Champion + DM + Influencer). Strict JSON/CSV outputs ready for HubSpot/Salesforce sync. Explicitly tagging accounts with exact Awareness Scores (Identified -> Selecting).
+
+## SOP AUTHORING STANDARD (Brad, 2 Oct 2026)
+The blueprint is `00_global_context/GTM_Playbook_2026.pdf`, mapped section by section in `00_global_context/gtm_playbook_2026_flow.md` (S01 to S16). SOPs are written **one section at a time, top to bottom**, and each SOP covers named sections only.
+
+Every SOP must explicitly define, for each section it covers:
+* **Tools:** the specific tools, skills, plugins or third-party apps used in this step.
+* **Application:** exactly how each tool is used (inputs, settings, steps, outputs).
+* **Automation:** the automated workflows expected to run through **n8n** (trigger, nodes, schedule, error handling, human-approval gates).
+* **Data Flow:** how data is injected into and extracted from each part of the business (source → transform → destination, with field-level schemas and the system of record).
+
+SOP files live in the numbered stage folder that matches the section (e.g. S01–S02 in `01_backtest_and_icp/`), and are named `SOP_Sxx_<section>.md`.
+
+## STANDING RULES (2 Oct 2026)
+* Target firms of 1–50 staff; size-only account tiers: Tier 1 = 10–30, Tier 2 = 31–50, Tier 3 = 1–9; over 50 disqualified.
+* Tools are tested at each step, never locked in ahead of implementation.
+* ERMOS Dominion is "air-gapped": no egress; only inbound health-check pings and patch updates.
+* Naming: use "John Moustache" in internal documentation and "John A." in external documentation (same person).
+* Partner rules come from the IT Reseller Partner Agreement v0.8 as amended on 2 Oct 2026 (see `meeting_ermos_comarket.md`).
