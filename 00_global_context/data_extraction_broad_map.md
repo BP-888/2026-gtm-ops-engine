@@ -3,9 +3,9 @@
 | | |
 |---|---|
 | **Purpose** | How firms are sourced, extracted, verified and staged into the outbound pipeline: tools, folders, sheet conventions, fit criteria and field schemas. |
-| **Provenance** | Synthesised 2 Oct 2026 from Notion Ermos HQ and Google Drive |
+| **Provenance** | Synthesised 2 Oct 2026 from Notion Ermos HQ and Google Drive. Updated 2 Oct 2026 with Brad's rulings [R-02OCT] |
 | **Status** | Draft for Brad's review |
-| **Authority** | Notion Ermos HQ (ERMOS RevOps Operating System) is the single source of truth. Drive briefs are used only where Notion is silent, and only where no 05 Decisions Log ruling overrides them. Source keys in [brackets] resolve in §11. |
+| **Authority** | Brad ruling, 2 Oct 2026 [R-02OCT] supersedes the Notion 05 Decisions Log wherever they conflict. Otherwise Notion Ermos HQ (ERMOS RevOps Operating System) is the single source of truth, and Drive briefs are used only where Notion is silent and no ruling overrides them. Source keys in [brackets] resolve in §11. |
 
 ---
 
@@ -13,32 +13,46 @@
 
 | Rule | Value | Source |
 |---|---|---|
-| Outbound size band | **10 to 50 seats/staff, strictly.** Every list and campaign holds firms in this band only. Product sweet spot is 5 to 50, but that is not a targeting band. | [D-24SEP] |
-| Over 50 | Disqualified. No campaign, no contact sourced. | [D-24SEP], [CNS] |
+| Outbound size band | **Any ICP firm with 1 to 50 staff.** Sweet spot 10 to 50. Firms with 1 to 9 staff are in scope (Tier 3). | [R-02OCT] |
+| Account tier | **Size only:** Tier 1 = 10–30 staff · Tier 2 = 31–50 · Tier 3 = 1–9. Staff count verified on the firm's own website; an unverified count gets no tier and is held until verified. No numeric score. Boundaries at 10 and 30 awaiting Brad's confirmation (§12). | [R-02OCT] |
+| Over 50 | Disqualified. No campaign, no contact sourced. | [R-02OCT], [D-24SEP], [CNS] |
 | Approved verticals | Full words only: **accounting, law, aged care, healthcare, finance**. Campaign token `AgedCare`; filenames and tags "aged care". | [D-24SEP], [D-17SEP], [CNS] |
 | Products | Two, both active: **ERMOS Edge** (cloud, Australian SOC 2 compliant server) and **ERMOS Dominion** (on-site). Fit is assessed for both, not Dominion alone. | [D-17SEP], [PROD] |
-| Pricing context (sets the 10-seat floor) | Edge A$99/seat/month, 10-seat minimum. Dominion A$99/seat/month, 10-seat minimum, plus A$7,500 hardware per box; one box per 15 people (new box at seats 16, 31, 46). All AUD ex GST. | [D-24SEP], [D-28SEP] |
-| Claims | Never describe Dominion as air-gapped or disconnected. "Air-gapped" may appear only as a phrase we detect on a prospect's site, never as an ERMOS claim. | [D-28SEP], [MSB] |
+| Pricing context (10-seat minimum is a commercial term, not a targeting floor) | Edge A$99/seat/month, 10-seat minimum. Dominion A$99/seat/month, 10-seat minimum, plus A$7,500 hardware per box; one box per 15 people (new box at seats 16, 31, 46). All AUD ex GST. | [D-24SEP], [D-28SEP] |
+| Claims | Dominion is described as **air-gapped**: no egress, so no documentation or data can flow out. Only inbound pings for health checks and inbound patch updates are permitted. "Air-gapped" on a prospect's site also remains a valid signal. | [R-02OCT] |
 | Out of scope | Mortgage broking and insurance broking (not approved verticals). Partner/MSP firms are a separate channel ICP, not end buyers. | [D-24SEP], [ICP07] |
+| Enrichment tooling | No single tool is locked in. Tools are tested at each step during implementation, then chosen (§2). | [R-02OCT] |
 | Governance | Agents read Approved pages only; log SOP version per run; never edit a governed page; proposed rule changes go to 06 Proposed Changes. `00.archive admin..00` must not be used. | [MSB], [LGC] |
+
+**Volume and priority (30 Sep meeting) [MTG-30SEP].** All five verticals ramp up volume. **Healthcare and law are the immediate priority verticals.** A new **Integrators ICP** (IT consultants, IT managers, managed service providers, cloud and Microsoft 365 specialists) is being added for partner-recruitment outreach. Build it as a separate partner-recruitment list, not an end-customer vertical: it gets no R-02OCT tier and never enters an end-customer campaign.
 
 ---
 
 ## 2. Source and tool map
 
-| Tool / source | Role in extraction | Rule | Source |
-|---|---|---|---|
-| **Google Maps via Apify** (`compass/crawler-google-places`) | Raw firm discovery by segment × suburb | Writes one raw CSV per run to `01_raw`. No enrichment, no contact, no copy. Pilot first. | [SOP-GS], [SKILL-GS] |
-| **Apollo** | Candidate sourcing (company + person search) and part of the enrichment waterfall | Apollo sources; the firm's own website verifies. A firm never reaches the list on Apollo data alone. Apollo headcount is indicative only. | [MSB], [B-ACC], [B-LAW] |
-| **LinkedIn Sales Navigator** | List building and account mapping | Named in the eight-step engine; no SOP yet. | [MSB] |
-| **Clay** | Enrichment (domain, headcount, industry, contacts, email status) | Clay output is never accepted without independent website validation; a matching Clay industry label never approves a firm on its own. Not named in the current Master System Brief (see §10). | [CLAY] |
-| **BetterContact → Apollo** | Enrichment waterfall for verified contact data | Runs only on qualified firms. | [MSB] |
-| **ZeroBounce** | Bounce check before enrolment | Mandatory before any Smartlead upload. | [MSB] |
-| **Smartlead** (or Instantly) | Outreach platform only | Not a source of prospect intelligence. Receives human-approved rows only. | [MSB], [CLAY] |
-| **RB2B, job changes, ad engagement** | Signal capture that triggers list building | Signal layer, not bulk TAM. | [MSB] |
-| **Membership and regulator registers** | Verification (hard checks), and a candidate sourcing channel still under evaluation | See §6 per vertical. Directories as a *sourcing* channel are a hypothesis, not a ruling. | [LSE], [B-LAW], [B-HC], [B-FIN] |
+No enrichment or sourcing tool is locked in [R-02OCT]. Each step is defined by what it must achieve; tools are tested at that step during implementation, then chosen.
 
-**Channel framing.** Apollo is likely a research channel (who to approach), not an outreach channel. Any source that scores 2 or lower on trust transfer has to be justified as first touch or reclassified as research. Referral partners, MSPs and PI insurers must be ranked alongside the four tool families. [LSE]
+**Principles (apply whatever the tool)**
+- Verify facts on the firm's own website. Never trust a vendor field alone (headcount, industry label or technographics).
+- Waterfall contact finding to maximise find rate at the lowest cost; enrich only firms that have already qualified.
+- Deduplicate on domain before spending anything.
+- Bounce-check every address before any send. Never fabricate an address.
+- Human approval before any outreach.
+- Blank is a correct answer.
+
+| Step | What it must do | Candidate tools under test | Source |
+|---|---|---|---|
+| Raw discovery | Firm discovery by segment × suburb; one raw CSV per run to `01_raw`; no enrichment, contact or copy; pilot first | Apify Google Maps scraper (`compass/crawler-google-places`), Apollo company search, LinkedIn Sales Navigator | [SOP-GS], [SKILL-GS], [MSB] |
+| Firm enrichment | Domain, headcount, industry, technographics as *indicative* inputs to website verification | Apollo, Clay | [CLAY], [MSB] |
+| Contact enrichment | Waterfall to named, verified decision makers on qualified firms only | BetterContact, Apollo, Clay | [MSB], [CLAY] |
+| Deliverability | Bounce check before any upload | ZeroBounce | [MSB] |
+| Verification (hard checks) | Regulator and membership registers per vertical (§6) | n/a (public registers) | [B-ACC], [B-LAW], [B-HC], [B-FIN] |
+| Signal capture | Triggers list building; signal layer, not bulk TAM | RB2B, job changes, ad engagement | [MSB] |
+| Outreach platform | Receives human-approved rows only; never a source of prospect intelligence | Smartlead (or Instantly) | [MSB], [CLAY] |
+
+Membership directories as a *sourcing* channel are a hypothesis, not a ruling. [LSE]
+
+**Channel framing.** A database tool such as Apollo is likely a research channel (who to approach), not an outreach channel. Any source that scores 2 or lower on trust transfer has to be justified as first touch or reclassified as research. Referral partners, MSPs and PI insurers must be ranked alongside the four tool families. [LSE]
 
 **Skills in scope for Lead Gen:** `leadgen-google-scraper`, `leadgen-apollo-discovery`. The skill name, `SKILL.md` name and SOP page title must match exactly. [LGC], [MSB]
 
@@ -56,7 +70,7 @@ Drive: `ERMOS / 3. DATA / PIPELINE` (folder id `1nIpskjvSHuK3dCXXubP9h_SeTXXn4bT
 | `_processed` | Files already consumed downstream | n/a | Folder named only |
 
 **End-to-end order (as specified across sources):**
-signal or segment brief → raw discovery (`01_raw`) → website verification and tiering (ICP_Master) → enrichment waterfall (BetterContact, Apollo, Clay) → ZeroBounce → Brad approval → Smartlead import (`03_ready`) → Smartlead Extraction Register entry. [MSB], [CLAY], [SOP-GS]
+signal or segment brief → raw discovery (`01_raw`) → website verification and size tier (ICP_Master) → contact enrichment waterfall → bounce check → Brad approval → Smartlead import (`03_ready`) → Smartlead Extraction Register entry. Tools at each step per §2. [MSB], [CLAY], [SOP-GS], [R-02OCT]
 
 ---
 
@@ -66,7 +80,7 @@ Fixed 18 columns, in order: [SOP-GS], [SKILL-GS]
 
 `segment, search_term, suburb_searched, firm_name, website, domain, phone, address, state, postcode, google_category, rating, reviews_count, place_id, maps_url, scraped_at, source, run_id`
 
-- `segment` must be one of `accounting`, `law`, `healthcare`, `finance`, `aged-care`. Note that `aged-care` is hyphenated in the skill, while the house style is "aged care" in tags (see §10).
+- `segment` must be one of `accounting`, `law`, `healthcare`, `finance`, `aged-care`. Note that `aged-care` is hyphenated in the skill, while the house style is "aged care" in tags (see §12).
 - `scraped_at` is ISO 8601, Sydney time. `source` is always `google_maps`.
 - Dedup within the run on `domain`, falling back to `place_id` where there is no website.
 - Filename: `<segment>_<suburb-or-multi>_<YYYY-MM-DD>_<HHMM>.csv`. The `.run.json` records actor input, run ids, row counts, SOP version and the cost Apify reported.
@@ -91,16 +105,16 @@ Sheet: `ICP_Master`, id `1cgunhz43AF45AReQm_IOSpdoI2L7MuTnx95icTH3INk`. Tabs: **
 - **One row per firm**, deduplicated on **Domain** across all segments. If the domain already exists, do not add a row: append the new segment to `Segment(s)` and fill the blank columns.
 - **Segment(s):** every segment the firm qualifies for, semicolon separated (e.g. `Accounting; SMSF`).
 - **Source segment:** the segment that first sourced the firm. Never changes once set.
-- **Staff count:** verified from the firm's own team or about page, **not Apollo's headcount**.
-- **Tier:** A = core fit plus at least one amplifying signal · B = core fit, no amplifier · C = right shape, something unresolved. A and B count toward a segment target; C is held in Master but not counted.
+- **Staff count:** verified from the firm's own team or about page, **not a vendor headcount**.
+- **Tier (per R-02OCT, size only):** Tier 1 = 10–30 · Tier 2 = 31–50 · Tier 3 = 1–9. Blank until staff count is verified. *The Legend still defines A/B/C; it needs updating (§10.1).*
 - **Verification evidence:** the URL or exact phrase that confirmed the fact. Required. A yes/no is not evidence.
-- **Holding tab:** strong firms just below the floor and firms above the band, held for Brad's decision and not counted. *The Legend's current bands (3 to 4 below, 31 to 50 above) predate the 24 Sep ruling; see §10.*
+- **Holding tab:** firms whose staff count is not yet verified, or whose core fit is unresolved, held and not counted. *The Legend's current definition (3 to 4 below the floor, 31 to 50 above the band) predates R-02OCT and must be rewritten (§10.1).*
 
 **Master / Holding columns (24):**
 `Firm name · Domain · Website · Segment(s) · Source segment · City / Region · Staff count · Services · Professional body · Segment signals · M365 or Copilot evidence · Contact 1 name/title/email/LinkedIn · Contact 2 name/title/email/LinkedIn · Signals found · Tier · Verification evidence · Notes / exclusion reason · Batch`
 
 - `Segment signals` holds software (e.g. Xero, MYOB, Karbon, Class Super).
-- `Batch` format: `YYYY-MM-DD · Segment · Metro · Apollo bucket` (e.g. `2026-08-13 · Accounting · Sydney · 11-20`).
+- `Batch` format: `YYYY-MM-DD · Segment · Metro · source size bucket` (e.g. `2026-08-13 · Accounting · Sydney · 11-20`).
 
 **Exclusions columns (6):** `Firm name · Domain · Segment · Exclusion reason · Evidence (URL/phrase) · Batch`. Log every exclusion with its reason and never delete it. [ICPM], [B-ACC]
 
@@ -110,27 +124,27 @@ Sheet: `ICP_Master`, id `1cgunhz43AF45AReQm_IOSpdoI2L7MuTnx95icTH3INk`. Tabs: **
 
 ## 6. Firmographic fit by approved vertical
 
-Common to every brief: Apollo sources and the website verifies. Work in batches of one metro × one Apollo bucket (healthcare adds the sub-vertical), checkpoint every batch, dedup on domain and across segments, and **stop and flag a shortfall rather than widening criteria**. Apollo buckets 1–10, 11–20 and 21–50 are all searched; banding happens at verification. Geography in all briefs: Sydney, Melbourne, Queensland statewide (Brisbane, Gold Coast, Sunshine Coast, Toowoomba, Cairns, Townsville) and Canberra/ACT; regional NSW and VIC out unless approved. Multi-office firms qualify if the principal office is in region. [B-ACC], [B-LAW], [B-HC], [B-FIN]
+Common to every brief: a sourcing tool finds candidates and the website verifies. Work in batches of one metro × one source size bucket (healthcare adds the sub-vertical), checkpoint every batch, dedup on domain and across segments, and **stop and flag a shortfall rather than widening criteria**. Search every size bucket up to 50 (e.g. Apollo 1–10, 11–20, 21–50); tiering happens at verification. Geography in all briefs: Sydney, Melbourne, Queensland statewide (Brisbane, Gold Coast, Sunshine Coast, Toowoomba, Cairns, Townsville) and Canberra/ACT; regional NSW and VIC out unless approved. Multi-office firms qualify if the principal office is in region. [B-ACC], [B-LAW], [B-HC], [B-FIN]
 
-> Size: every brief below says "Core 5–30, outliers 31–50, micro 1–4". For **outbound listing**, the 24 Sep band of 10 to 50 replaces those bands. The verification logic is carried; the size bands are not.
+> Size: every brief below says "Core 5–30, outliers 31–50, micro 1–4". R-02OCT replaces those bands with 1–50 and size-only Tiers 1–3. The verification logic is carried; the size bands are not. Each vertical's former "Tier A amplifiers" are kept as **signals**: they feed signal tracking, awareness scoring and outreach priority within a tier. They are not tier criteria.
 
 ### Accounting [B-ACC], [ICPM]
 - **Firm type:** public practice (accounting, tax, BAS and business services, audit, SMSF, advisory).
 - **Hard check:** TPB-registered tax or BAS agent and/or CA ANZ, CPA Australia, IPA or SMSF Association membership, evidenced on the site.
-- **Apollo:** industry Accounting (secondary net Financial Services). Keywords: chartered accountants, tax agent, BAS agent, business services, tax advisory, audit and assurance, SMSF. Tech where populated: Xero, MYOB, Microsoft 365.
-- **Tier A amplifiers:** audit or SMSF named; named workpaper software (CaseWare, Xero Workpapers, MYOB AE/AO, Class Super, BGL, Karbon, FYI Docs and similar); seasonal or contract job ads; public statement on privacy, sovereignty or AI caution; multi-partner structure.
+- **Search filters (Apollo, if used):** industry Accounting (secondary net Financial Services). Keywords: chartered accountants, tax agent, BAS agent, business services, tax advisory, audit and assurance, SMSF. Tech where populated: Xero, MYOB, Microsoft 365.
+- **Signals:** audit or SMSF named; named workpaper software (CaseWare, Xero Workpapers, MYOB AE/AO, Class Super, BGL, Karbon, FYI Docs and similar); seasonal or contract job ads; public statement on privacy, sovereignty or AI caution; multi-partner structure.
 - **Disqualifiers:** solo setups; Big 4 and national networks or roll-ups (including association brands); offshore processing teams; non-regulated (bookkeeping-only, coaching, vCFO without confidentiality obligation); public commitment to running client data through a public cloud LLM. AI curiosity alone is **not** a disqualifier.
 
-### Law [B-LAW]
+### Law [B-LAW] (priority vertical)
 - **Firm type:** commercial, litigation and disputes, corporate/M&A, property (including conveyancing within a law firm), family, wills and estates, employment, construction, insurance.
 - **Hard check:** the regulator's public register, not a site badge. NSW Law Society; Victorian Legal Services Board & Commissioner; Queensland Law Society; ACT Law Society.
 - **Counting:** count total staff, not lawyers. Fee-earner-only pages are banded provisionally and marked unconfirmed.
-- **Apollo:** industry Law Practice (secondary Legal Services). Tech: Microsoft 365, LEAP, Smokeball, Actionstep.
+- **Search filters (Apollo, if used):** industry Law Practice (secondary Legal Services). Tech: Microsoft 365, LEAP, Smokeball, Actionstep.
 - **Record:** `PMS product` and `PMS deployment` (Cloud-native / Server-based / Unknown). Neither value is filtered out.
-- **Tier A amplifiers:** document-heavy core practice (litigation, M&A or due diligence, construction, insurance, estates disputes); identified PMS or DMS; fee-earner job ads; privilege or AI-caution statements; multi-partner structure.
+- **Signals:** document-heavy core practice (litigation, M&A or due diligence, construction, insurance, estates disputes); identified PMS or DMS; fee-earner job ads; privilege or AI-caution statements; multi-partner structure.
 - **Disqualifiers:** barristers and chambers (Apollo often shows a chambers as a 20 to 60 person firm); in-house legal teams; CLCs, legal aid, pro bono; offshore legal processing; legal-adjacent vendors; public cloud-LLM commitment. Standalone licensed conveyancers are **routed** to a holding file, not excluded.
 
-### Healthcare [B-HC]
+### Healthcare [B-HC] (priority vertical)
 - **Sub-verticals, in priority order:** general practice → specialist consulting → allied health (where NDIS, WorkCover or CTP reporting is the qualifier). Record the sub-vertical in its own column.
 - **Parked:** medico-legal and IME practices (a recorded decision). Dental, optometry, audiology and podiatry need approval before any build.
 - **Ownership check comes first** (footer, privacy policy, careers portal, group directories). Corporate-owned clinics are excluded and the parent is recorded.
@@ -148,24 +162,22 @@ Common to every brief: Apollo sources and the website verifies. Work in batches 
 - **Disqualifiers:** licensees and dealer groups (look for "join us / become an AR" pages, at every size); institutionally owned or aligned practices; product manufacturers and platforms; stockbroking and institutional wealth; robo-advice; unlicensed money coaches and promoters; offshore paraplanning; public cloud-LLM commitment. Mortgage-only and insurance-only brokers are out of scope (§1).
 - **Note:** advice software is overwhelmingly hosted. Do not spend time hunting for a deployment split.
 
-### Aged care: no extraction criteria exist
-The Drive aged care brief is an empty template ("Status: not started"). The 02 ICP & Sentiment database has no records. The healthcare brief routes aged care and NDIS providers to a separate `aged-care-ndis-candidates.xlsx`, holding only name, website, city and staff count. **Until Brad rules, capture only those four fields.** [B-AGE], [B-HC]
+### Aged care: pending T-001
+Dedicated aged care ICP brief is pending: T-001 (repo root `TASKS.md`). Until it lands, aged care and NDIS providers routed from the healthcare build go to `aged-care-ndis-candidates.xlsx` with name, website, city and staff count only. [B-HC]
 
 ---
 
-## 7. Size bands for extraction rows
+## 7. Size tiers for extraction rows
 
-| Band label | Staff | Outbound? | Source |
+| Tier | Verified staff | Outbound? | Source |
 |---|---|---|---|
-| `10–15` | 10 to 15 | Yes | Notion 01. ICP Master Database `Firm Size` options [ICPDB] |
-| `16–30` | 16 to 30 | Yes | [ICPDB] |
-| `31–45` | 31 to 45 | Yes | [ICPDB] |
-| `46–50` | 46 to 50 | Yes | [ICPDB] |
-| below 10 | 1 to 9 | No (product fit from 5, but not outbound) | [D-24SEP] |
-| `TOO_LARGE` | over 50 | No. Disqualified | [D-24SEP], [CNS] |
-| unresolved | n/a | Hold. Never default into the smallest band | [CNS] |
+| Tier 1 | 10 to 30 | Yes (sweet spot) | [R-02OCT] |
+| Tier 2 | 31 to 50 | Yes (sweet spot) | [R-02OCT] |
+| Tier 3 | 1 to 9 | Yes | [R-02OCT] |
+| `TOO_LARGE` | over 50 | No. Disqualified | [R-02OCT], [CNS] |
+| unverified | n/a | Hold, no tier. Never default into a tier | [R-02OCT], [CNS] |
 
-The ICP Master Database bands line up with the Dominion box thresholds (1 box to 15 people, new boxes at 16, 31 and 46) [D-28SEP]. That is an observation, not a recorded rationale.
+The Notion 01. ICP Master Database `Firm Size` options (`10–15 / 16–30 / 31–45 / 46–50`) [ICPDB] nest inside Tiers 1 and 2 and line up with the Dominion box thresholds (new boxes at 16, 31, 46) [D-28SEP]. They have no option for 1–9, so they need a Tier 3 value (§10.1).
 
 ---
 
@@ -175,17 +187,17 @@ The ICP Master Database bands line up with the Dominion box thresholds (1 box to
 - **Named decision maker:** a real person with a title, never `info@`, `admin@` or `reception@`. [B-ACC]
 - **Email status vocabulary:** Verified / Validated / Unverified / Guessed / Catch-all / Unavailable. Never fabricate an address. [CLAY]
 - **No statutory citations in any cell** (e.g. Privacy Act, APP 8, Uniform Law, s912A). Facts about the firm go in the sheet; framing does not. The `Jurisdiction` column takes NSW / VIC / QLD / ACT (law adds the regulator name). [B-LAW], [B-HC], [B-FIN]
-- **Blank is a correct answer** for signals that cannot be found. Apollo technographics on small AU firms are thin; never assert Copilot from Apollo. [B-ACC]
+- **Blank is a correct answer** for signals that cannot be found. Vendor technographics on small AU firms are thin; never assert Copilot from a vendor field. [B-ACC]
 - **Review queues** before export: Approved (ready for Brad) · Rejected (recorded for learning) · Uncertain (Brad review) · Partnership opportunity · Data problem · Approved for Smartlead export · Held (contact data inadequate). Nothing is "Ready for Smartlead" without human approval. [CLAY]
 
 **Smartlead import and naming** [CNS]
-- Campaign format: `STATUS_VERTICAL_SIZE_JOB_VERSION`. Import file: `SMARTLEAD_<same name>.csv`. CSV columns `segment` (human-readable) and `tag` (link tag, e.g. `5-30-cm`).
+- Campaign format: `STATUS_VERTICAL_SIZE_JOB_VERSION`. Import file: `SMARTLEAD_<same name>.csv`. CSV columns `segment` (human-readable) and `tag` (link tag, e.g. `5-30-cm`). The `SIZE` token and tags still use the old cohorts (§10.1).
 - Job tokens (`Decision_Makers`, `Senior_Accountants`, `Client_Managers`, `Practice_Managers`, `IT_Specialists`, `General`) are ruled for accounting only. Other verticals need their own before a first campaign.
 
 **Smartlead Extraction Register, Accounting** (id `1gmwkEl4Wa9udutJQoLfsLseOFeKLj3g783jT4aPQdJI`) [SER]
 - Schema: `email · first_name · last_name · company · extraction · extracted_date`.
 - State at 2 Oct 2026: one batch, `Extraction 1`, dated 2026-09-30, about 235 contact rows (roughly two per firm). The register holds personal data. Never copy rows into this repo.
-- It has no `domain` column, so it cannot be joined to ICP_Master on the dedup key (see §10).
+- It has no `domain` column, so it cannot be joined to ICP_Master on the dedup key (see §12).
 
 ---
 
@@ -193,11 +205,11 @@ The ICP Master Database bands line up with the Dominion box thresholds (1 box to
 
 1. Vertical is approved (§1). Healthcare: run the ownership check. Finance: run the ASIC register check. Do these **first**.
 2. Dedup on Domain against ICP_Master (all segments). Finance: also check trading name and address.
-3. Count staff on the firm's own site and assign the §7 band. Over 50 → Exclusions. Unresolved → Tier C or Holding.
+3. Count staff on the firm's own site and assign the §7 tier (1–9 Tier 3, 10–30 Tier 1, 31–50 Tier 2). Over 50 → Exclusions. Unverified → Holding, no tier.
 4. Run the vertical hard check (TPB/body, law register, Ahpra or ASIC) and record the evidence URL or phrase.
 5. Check the vertical disqualifiers (§6). Log any exclusion with its reason.
-6. Capture signals, or leave the cell blank. Assign Tier A/B/C per the ICP_Master Legend.
-7. Enrich contacts only after steps 1 to 6 pass. Then ZeroBounce, Brad approval, import, and a register entry.
+6. Capture signals (§6), or leave the cell blank. Signals set priority within a tier; they do not change the tier.
+7. Enrich contacts only after steps 1 to 6 pass. Then bounce check, Brad approval, import, and a register entry.
 
 ---
 
@@ -205,18 +217,28 @@ The ICP Master Database bands line up with the Dominion box thresholds (1 box to
 
 | Left out | Where it came from | Superseded by |
 |---|---|---|
-| "1 to 50 staff cap"; bands `1-4 / 5-30 / 31-50`; 15-point scoring with size points favouring 5–30 | Drive `01 icp-brief.md` (accounting, 9 Sep) [B-ICP] | 24 Sep: outbound strictly 10 to 50 [D-24SEP] |
-| Core 5–30 build bands; Micro 1–4 cohorts (caps 25/50); Outlier 31–40 / 41–50 as secondary passes | Drive briefs 01–04 (Aug) | 24 Sep outbound band [D-24SEP] |
-| "15 to 100 seats" target | Aug SLT Q&A (not reread) | 24 Sep [D-24SEP] |
+| Outbound strictly 10 to 50; sub-10 firms out of outbound | 24 Sep ruling [D-24SEP] | Superseded by R-02OCT (1 to 50, size tiers) |
+| Tier A/B/C (core fit plus amplifier) as the account tier | ICP_Master Legend [ICPM] | Superseded by R-02OCT (size-only Tiers 1–3; amplifiers kept as signals) |
+| All numeric account scores: accounting 15-point score; Clay 0–100 framework | Drive `01 icp-brief.md` (9 Sep) [B-ICP]; Clay project [CLAY] | Superseded by R-02OCT (no numeric score) |
+| Fixed enrichment stack (BetterContact → Apollo → ZeroBounce; Clay as primary) | Master System Brief [MSB]; Clay project [CLAY] | Superseded by R-02OCT (tools under test, §2) |
+| "Never describe Dominion as air-gapped" (21 Sep retirement; 28 Sep guardrail) | 05 Decisions Log [D-28SEP]; Master System Brief | Superseded by R-02OCT (air-gapped, no-egress definition) |
+| Bands `1-4 / 5-30 / 31-50` as the size vocabulary | Drive `01 icp-brief.md` (accounting, 9 Sep) [B-ICP]; [CNS] | R-02OCT tiers (re-map in §10.1) |
+| Core 5–30 build bands; Micro 1–4 cohorts (caps 25/50); Outlier 31–40 / 41–50 as secondary passes | Drive briefs 01–04 (Aug) | R-02OCT |
+| "15 to 100 seats" target | Aug SLT Q&A (not reread) | 24 Sep [D-24SEP], then R-02OCT |
 | P1/P2/P3 Smartlead profiles | Drive `ermos-smartlead-icp-profiles.md` (Aug, not reread) | 24 Sep size and vertical rulings |
-| "10–100 seat" target in the title of the 24 Sep decision | 05 Decisions Log | Body of the same ruling (outbound 10 to 50) |
+| "10–100 seat" target in the title of the 24 Sep decision | 05 Decisions Log | Body of the same ruling, itself now superseded by R-02OCT |
 | Dominion A$2,599 + GST per month, "up to 30 staff", "no per-user licences", and the size-floor logic built on that price | Drive briefs and `01 icp-brief.md` | Per-seat pricing, 28 Sep [D-28SEP] |
 | Dominion flat bands (A$2,499 / A$4,499 / A$6,499) | 24 Sep ruling | 28 Sep per-seat ruling [D-28SEP] |
-| "Air-gapped" or "never leaves the premises" as product description | Drive briefs | 21 Sep and 28 Sep guardrails [D-28SEP] |
 | Mortgage broker and insurance broker list builds | Drive `05-icp-mortgage-brokers-au.md`, `06-icp-insurance-brokers-au.md` | Not approved verticals [D-24SEP] |
 | Acronym verticals (ACC, LAW, AGE, HLT, FIN; `Acct`) | Aged care brief template; legacy campaigns | Full words, 17 Sep [D-17SEP], [CNS] |
 | Merge-field copy and Dominion-hardware email wording | Drive `ICP_MasterDerivedColumns20.md` (Aug) | Hormozi Standard v2.0, 29 Sep (copy is outside this file's scope) |
 | Anything under `00.archive admin..00` (e.g. Sales & Market Intelligence ICP summaries) | Notion archive | Master System Brief rule 5 [MSB] |
+
+### 10.1 Implementation tasks from R-02OCT (not conflicts)
+
+- Re-map the old cohorts to tiers: `1-4` → Tier 3, `5-30` → Tier 1, `31-50` → Tier 2. Re-tier on verified staff count, because `5-30` also holds 5–9 staff firms that are Tier 3. Update `cohortFor()`, the Campaign Naming Standard `SIZE` token and link tags, the ICP_Master Legend and `Tier` column, and the Holding tab definition together.
+- Add a Tier 3 (1–9) value to the ICP Master Database `Firm Size` property.
+- Run tool tests at each §2 step and record the choice before scaling.
 
 ---
 
@@ -224,6 +246,9 @@ The ICP Master Database bands line up with the Dominion box thresholds (1 box to
 
 | Key | Title | Location |
 |---|---|---|
+| R-02OCT | Brad ruling, 2 Oct 2026 (size 1–50; size-only tiers; tool-agnostic enrichment; aged care T-001; Dominion air-gapped) | Brad's direct instruction, 2 Oct 2026 |
+| MTG-30SEP | Brad's meeting notes email, "Meeting Notes, Wed 30th September" | Gmail |
+| TASKS | Pipeline task list (T-001: aged care ICP brief) | repo root `TASKS.md` |
 | D-24SEP | 05 Decisions Log: Hybrid pricing, 10–100 seat target market, partner standard (24 Sep 2026) | https://app.notion.com/p/3e577626a80981aca23bf476f648027b |
 | D-28SEP | 05 Decisions Log: Dominion per-seat pricing model (28 Sep 2026) | https://app.notion.com/p/19294104ed9a4ae185badaaf7c2e3033 |
 | D-17SEP | 05 Decisions Log: Client document system, full-word verticals (17 Sep 2026) | https://app.notion.com/p/3de77626a809815ea975f17a6ef82a4d |
@@ -252,20 +277,17 @@ The ICP Master Database bands line up with the Dominion box thresholds (1 box to
 
 ## 12. Open conflicts / gaps for Brad
 
-1. **Below-10 firms already in the pipeline.** ICP_Master carries Tier A/B firms with 5 to 9 staff, and Smartlead Extraction 1 (30 Sep) was drawn from that pool. Both predate or ignore the 24 Sep 10–50 rule. Should sub-10 rows be pulled from active sequences, moved to Holding, or allowed to finish?
-2. **ICP_Master Holding definition is stale.** It holds "3–4 staff" and "31–50" firms, but 31–50 is now inside the outbound band and 5–9 is now outside it. The Legend needs a new rule.
-3. **Campaign Naming Standard (Approved v3.0, 17 Sep) still uses `1-4 / 5-30 / 31-50`**, and `cohortFor()` enforces those bands. The ICP Master Database uses `10–15 / 16–30 / 31–45 / 46–50`. Which band vocabulary governs campaign names, tags and the Apps Script?
-4. **Two tier systems.** ICP_Master Legend (A/B/C by core fit plus amplifier) versus the 9 Sep accounting brief (15-point score) and the Clay project (0–100 score). This file follows the Legend. Please confirm.
-5. **Scraper SOP status.** Metadata says Approved, the body says DRAFT, and 06 Proposed Changes says keep execution stopped. Apify price per 1,000 places (US$1.50 or US$4) and Cowork reachability of api.apify.com are unconfirmed.
-6. **Scraper SOP covers accounting only.** There are no ruled search terms, suburbs or exclusions for law, healthcare, finance or aged care.
-7. **`leadgen-apollo-discovery` has no SOP** in 03 SOPs. The `02_enriched`, `03_ready` and `_processed` stage contracts and schemas are undefined.
-8. **Clay's status is unclear.** It is in the Aug project doc but absent from the Master System Brief's eight-step engine (BetterContact, Apollo, ZeroBounce). The 03 Tech Stack & Schema Registry is empty.
-9. **No Approved ICP records.** 02 ICP & Sentiment has zero rows. 01. ICP Master Database has only the Draft partner ICP. Every vertical criterion in §6 therefore rests on August Drive briefs, which were meant to be archived "once Notion ICP pages are Approved".
-10. **Aged care has no ICP at all:** firm type, regulator, size logic, hard check and disqualifiers are all missing. The healthcare brief routes aged care away as a different regulator and buying process.
-11. **Finance scope is undefined.** The only brief covers retail financial advice practices. Confirm whether "finance" also includes SMSF administrators, wealth managers or others. The Accounting Smartlead register already contains wealth-branded firms.
-12. **The Master System Brief lists four verticals (omits aged care) and names Dominion as the primary offer.** The 24 Sep ruling lists five verticals and both products. The briefs score fit for Dominion only, so Edge fit criteria are absent.
-13. **The Smartlead Extraction Register has no domain or campaign column**, so it cannot be deduped against ICP_Master on Domain, or tied to the campaign name the standard requires to match "in three places".
-14. **Geography is brief-level only:** Sydney, Melbourne, QLD statewide, ACT; regional NSW and VIC out. No Notion ruling confirms it, and the Integrators page lists geography as an open decision.
-15. **Membership directories as a sourcing channel** are untested hypotheses (Law Society, LIV, QLS, ALPMA, Doyle's). The NSW Bar Association listed there conflicts with the law brief's barrister exclusion.
-16. **`aged-care` versus "aged care":** the scraper's segment token is hyphenated, but house style is `AgedCare` in campaigns and "aged care" in tags and filenames. Rule a pipeline token.
-17. **ICP_Master hygiene:** cell A1 on Master and Holding holds pasted prompt text, not a header.
+1. **Tier boundaries.** Brad wrote 10–30 / 30–50 / 1–10, which overlap. This file applies 1–9 / 10–30 / 31–50. Confirm the boundary at exactly 10 staff (Tier 3 or Tier 1) and at exactly 30 (Tier 1 or Tier 2).
+2. **Governed pages still carry the old rules.** The Notion 05 Decisions Log (24 Sep 10–50 rule; 21 Sep and 28 Sep air-gapped guardrail), the Campaign Naming Standard v3.0 (`1-4 / 5-30 / 31-50` cohorts) and the Master System Brief (fixed enrichment stack, air-gapped guardrail) need updating to match R-02OCT, via 06 Proposed Changes.
+3. **Dominion air-gapped claim, technical check.** Will to confirm Dominion's network configuration matches the strict no-egress definition: health-check replies and patch retrieval must not open an outbound data path, so the air-gapped claim is defensible.
+4. **Scraper SOP status.** Metadata says Approved, the body says DRAFT, and 06 Proposed Changes says keep execution stopped. Apify price per 1,000 places (US$1.50 or US$4) and Cowork reachability of api.apify.com are unconfirmed.
+5. **Scraper SOP covers accounting only.** There are no ruled search terms, suburbs or exclusions for law, healthcare, finance or aged care. Healthcare and law are now the priority verticals.
+6. **`leadgen-apollo-discovery` has no SOP** in 03 SOPs. The `02_enriched`, `03_ready` and `_processed` stage contracts and schemas are undefined.
+7. **No Approved ICP records.** 02 ICP & Sentiment has zero rows. 01. ICP Master Database has only the Draft partner ICP. Every vertical criterion in §6 therefore rests on August Drive briefs, which were meant to be archived "once Notion ICP pages are Approved".
+8. **Finance scope is undefined.** The only brief covers retail financial advice practices. Confirm whether "finance" also includes SMSF administrators, wealth managers or others. The Accounting Smartlead register already contains wealth-branded firms.
+9. **The Master System Brief lists four verticals (omits aged care) and names Dominion as the primary offer.** The 24 Sep ruling lists five verticals and both products. The briefs score fit for Dominion only, so Edge fit criteria are absent.
+10. **The Smartlead Extraction Register has no domain or campaign column**, so it cannot be deduped against ICP_Master on Domain, or tied to the campaign name the standard requires to match "in three places".
+11. **Geography is brief-level only:** Sydney, Melbourne, QLD statewide, ACT; regional NSW and VIC out. No Notion ruling confirms it, and the Integrators page lists geography as an open decision.
+12. **Membership directories as a sourcing channel** are untested hypotheses (Law Society, LIV, QLS, ALPMA, Doyle's). The NSW Bar Association listed there conflicts with the law brief's barrister exclusion.
+13. **`aged-care` versus "aged care":** the scraper's segment token is hyphenated, but house style is `AgedCare` in campaigns and "aged care" in tags and filenames. Rule a pipeline token.
+14. **ICP_Master hygiene:** cell A1 on Master and Holding holds pasted prompt text, not a header.
