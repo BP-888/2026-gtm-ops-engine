@@ -108,7 +108,19 @@ If an SOP draft, a Workflows.io playbook, or Claude's own logic suggests a tool 
 3. **Ask Brad to choose:** (a) adopt the suggested tool, (b) use an alternative he prefers, or (c) hack it with the existing stack.
 4. Record his answer in Notion 05 Decisions Log and, if approved, add the tool to the approved exceptions above.
 
-This also applies to **data providers reached through a core tool**: e.g. third-party providers inside a Clay waterfall count as new providers and need Ask First, even though they're billed through Clay.
+This also applies to **data providers reached through a core tool**, with one standing approval below.
+
+### Sourcing and enrichment rule (Brad, 2 Oct 2026)
+* **Apollo finds companies:** account sourcing, firmographic filters, company lists.
+* **Clay enriches people:** contact enrichment, emails and phone numbers always run through **Clay's third-party waterfall**. The waterfall providers are approved (billed through Clay credits). Apollo is not used as a standalone phone or contact source.
+* Google Maps listings (Apify, `leadgen-google-scraper`) are an approved raw-source input for local-business verticals. They feed Clay like any other company list.
+
+### Internal GTM engine: data handling (Brad, 2 Oct 2026)
+ERMOS sells SOC 2 (Edge) and air-gapped (Dominion) products to clients. Those product promises **do not restrict our own internal marketing operations**. The internal GTM engine may use any standard cloud tool in the stack (e.g. the Claude API, Clay, HubSpot, Smartlead) to process prospect data and replies. Don't add privacy or sovereignty constraints to internal builds because of what we sell. Normal legal obligations (e.g. Spam Act unsubscribe handling) still apply.
+
+### Outreach CTA rule (Brad, 2 Oct 2026)
+* **No calendar or booking links in initial outreach.** Smartlead campaigns ask prospects to **"Reply yes"**.
+* A prospect who replies with interest is sent the **3-minute online AI health check survey**. That's the first conversion step, not a meeting.
 
 Every SOP's **Tools Required** table marks each tool as `Core`, `Infrastructure`, `Approved exception` or `Pending Ask First`. An SOP can't be Approved while any tool is still `Pending Ask First`.
 

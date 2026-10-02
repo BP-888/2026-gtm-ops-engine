@@ -41,7 +41,7 @@ SOP files are named `SOP-NX-##_<Title_With_Underscores>.md` and saved in the rep
 | Component | Blueprint boxes | Tools shown | SOPs |
 |---|---|---|---|
 | **2A: Firmographic Fits** | Firmographic Fits | Apollo, Sales Navigator, ZoomInfo | SOP-2A-01 Firmographic TAM Pull *(planned)* |
-| **2B: Find Lookalikes** | Find Lookalikes | Discolike, Ocean.io, AI Ark (all three confirmed for a 30-record AU accuracy pilot) | **SOP-2B-01 Generating Lookalike Audiences** *(Draft, 2 Oct 2026)* |
+| **2B: Find Lookalikes** | Find Lookalikes | Discolike, Ocean.io, AI Ark (all three confirmed for a 30-record AU accuracy pilot) | **SOP-2B-01 Generating Lookalike Audiences** *(Draft, 2 Oct 2026)* · **SOP-2B-02 Accounting Lead Generation & Enrichment Pipeline** *(Draft, 2 Oct 2026; sprint pipeline: Google Maps (Apify) → Clay → HubSpot → Smartlead, running through Phases 3, 4 and 8)* |
 
 ## Phase 3: Account Research and Scoring
 *Verify, tier and package the accounts worth pursuing.*
