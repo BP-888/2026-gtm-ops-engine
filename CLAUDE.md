@@ -43,7 +43,7 @@ When recommending or structuring campaigns, categorize them strictly by scale:
 
 ## QUALITY CONTROL (GOOD VS. BAD)
 - **BAD:** Providing a generic summary of a market. Mixing 1st and 3rd party signals. Using vague buyer stages like "Top of Funnel". Single-threaded contact lists.
-- **GOOD:** Multi-threaded contact mapping (Champion + DM + Influencer). Strict JSON/CSV outputs ready for HubSpot sync. Explicitly tagging accounts with exact Awareness Scores (Identified -> Selecting).
+- **GOOD:** Multi-threaded contact mapping (Champion + DM + Influencer). Strict JSON/CSV outputs ready to sync to the right system of record (ICP_Master for cold records, HubSpot for engaged ones). Explicitly tagging accounts with exact Awareness Scores (Identified -> Selecting).
 
 ## PLAYBOOK HIERARCHY
 The blueprint is `00_global_context/GTM_Playbook_2026.pdf`, mapped in `00_global_context/gtm_playbook_2026_flow.md` as **Phases → Components → SOPs**:
@@ -80,7 +80,7 @@ These are the tools ERMOS uses and pays for. They are the **default for every wo
 
 | Tool | Role |
 |---|---|
-| **HubSpot** | CRM and single source of truth |
+| **HubSpot** | CRM for **engaged accounts only** (confirmed interest onward); single source of truth from that point |
 | **Clay** | Data enrichment and tiering |
 | **Smartlead AI** | Email sequencing and outreach |
 | **Apollo** | Data sourcing and contact info |
@@ -90,7 +90,7 @@ These are the tools ERMOS uses and pays for. They are the **default for every wo
 
 | Tool | Role |
 |---|---|
-| **Google Workspace** (Sheets, Drive, Gmail) | Working sheets, file hand-offs, email |
+| **Google Workspace** (Sheets, Drive, Gmail) | **ICP_Master** (the master database for every cold record), file hand-offs, email |
 | **Notion** | Ermos HQ: rules, decisions, SOP governance |
 | **Slack** | Team notifications and interactive approvals |
 | **Claude API** | AI steps inside n8n workflows (summarise, clean, classify) |
@@ -112,8 +112,15 @@ This also applies to **data providers reached through a core tool**, with one st
 
 ### Sourcing and enrichment rule (Brad, 2 Oct 2026)
 * **Apollo finds companies:** account sourcing, firmographic filters, company lists.
-* **Clay enriches people:** contact enrichment, emails and phone numbers always run through **Clay's third-party waterfall**. The waterfall providers are approved (billed through Clay credits). Apollo is not used as a standalone phone or contact source.
+* **Clay enriches people:** contact enrichment, emails and phone numbers always run through **Clay's third-party waterfall**. The waterfall providers are approved (billed through Clay credits). Apollo may serve as a people provider **inside** Clay's waterfall, but is not called as a standalone contact or phone source.
+* **Cost-first order (Workflows.io TAM Mapping Playbook):** cheap sourcing → dedupe against ICP_Master → company enrichment and tiering of net-new firms only → surgical contact sourcing (1–2 decision-makers per company) → ICP_Master → Smartlead. Never spend enrichment credits on a record that hasn't passed the cheaper steps.
 * Google Maps listings (Apify, `leadgen-google-scraper`) are an approved raw-source input for local-business verticals. They feed Clay like any other company list.
+
+### Data sync rule: cold vs engaged (Brad, 2 Oct 2026)
+* **ICP_Master (Google Drive) is the single source of truth and the only master database for the cold outbound pipeline.** Dedupe runs against it. Enriched, tiered companies and their decision-makers are written to it. Smartlead is fed from it.
+* **HubSpot is strictly for engaged accounts.** A company and its contacts enter HubSpot only when they show **confirmed interest** (e.g. an Interested reply in Smartlead, a completed AI health check survey, a meeting request). Cold enriched companies and contacts are **never** pushed to HubSpot.
+* Every other reply outcome (Neutral, Not interested, OOO, unsubscribe) is written back to ICP_Master, not HubSpot. Unsubscribes are also enforced in Smartlead.
+* When an account becomes engaged, n8n creates it in HubSpot from its ICP_Master row, and marks the row `In HubSpot` with the HubSpot record id.
 
 ### Internal GTM engine: data handling (Brad, 2 Oct 2026)
 ERMOS sells SOC 2 (Edge) and air-gapped (Dominion) products to clients. Those product promises **do not restrict our own internal marketing operations**. The internal GTM engine may use any standard cloud tool in the stack (e.g. the Claude API, Clay, HubSpot, Smartlead) to process prospect data and replies. Don't add privacy or sovereignty constraints to internal builds because of what we sell. Normal legal obligations (e.g. Spam Act unsubscribe handling) still apply.
@@ -132,7 +139,7 @@ The 9-Phase hierarchy, the business rules and the SOP template above are the **W
 * If no equivalent playbook exists, or the page can't be accessed, say so in the SOP and mark its automation design "not yet validated against Workflows.io".
 
 ## STANDING RULES (2 Oct 2026)
-* **CRM:** HubSpot only. No Salesforce. **n8n** runs every background workflow and every CRM injection.
+* **CRM:** HubSpot only (engaged accounts only; see the data sync rule). No Salesforce. **n8n** runs every background workflow, every ICP_Master write and every CRM injection.
 * Target firms of 1–50 staff; size-only account tiers: Tier 1 = 10–30, Tier 2 = 31–50, Tier 3 = 1–9; over 50 disqualified. Campaign tags: `T1`, `T2`, `T3` (confirmed for every Campaign Naming Standard).
 * **Automated Outbound** is 1:1 outreach.
 * **Lookalike tools:** Discolike, Ocean.io and AI Ark are confirmed for a 30-record Australian accuracy pilot (SOP-2B-01).

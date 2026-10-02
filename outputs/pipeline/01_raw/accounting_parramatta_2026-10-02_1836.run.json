@@ -1,0 +1,55 @@
+{
+  "segment": "accounting",
+  "mode": "pilot",
+  "sop_version": "v0.2",
+  "search_terms": [
+    "accountant"
+  ],
+  "suburbs": [
+    "Parramatta NSW"
+  ],
+  "max_places_per_search": 20,
+  "run_cap_usd": 1.0,
+  "scraped_at": "2026-10-02T18:36:08.035864+10:00",
+  "timezone": "Australia/Sydney",
+  "source": "google_maps",
+  "runs": [
+    {
+      "run_id": "ea0R0JkbCPUZ9eZC9",
+      "suburb": "Parramatta",
+      "state": "NSW",
+      "status": "SUCCEEDED (fetched outside this script)",
+      "actor_input": {
+        "searchStringsArray": [
+          "accountant"
+        ],
+        "locationQuery": "Parramatta NSW Australia",
+        "countryCode": "au",
+        "language": "en",
+        "skipClosedPlaces": true,
+        "maxCrawledPlacesPerSearch": 20,
+        "reviews": 0,
+        "images": 0,
+        "contacts": false,
+        "social": false,
+        "scrapePlaceDetailPage": false
+      },
+      "cost_usd_reported": 0.0,
+      "items_fetched": 20
+    }
+  ],
+  "rows_fetched": 20,
+  "rows_written": 19,
+  "rows_dropped": {
+    "excluded": 1,
+    "duplicate": 0,
+    "no_name": 0,
+    "no_identifier": 0
+  },
+  "rows_dropped_by_exclusion_term": {
+    "h&r block": 1
+  },
+  "total_cost_usd_reported": 0.0,
+  "output_csv": "/home/user/2026-gtm-ops-engine/outputs/pipeline/01_raw/accounting_parramatta_2026-10-02_1836.csv",
+  "items_file": "/tmp/claude-0/-home-user-web-site-builder/b1ca93f6-24d8-5bd7-9259-ea026145913f/scratchpad/pilot_parramatta_items.json"
+}

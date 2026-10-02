@@ -5,7 +5,7 @@
 | SOP ID | SOP-5A-01 *(Brad's brief called it SOP-5B-01. Filed under 5A because outreach replies are a 1st-party signal in the hierarchy map; the ID can be changed on request)* |
 | Phase | Phase 5: Signal Tracking |
 | Component | Component 5A: 1st-Party Signals (Outreach Replies). Also executes **6A** (awareness update), **7B** (lead routing) and **7D** (Slack notifications) for reply events |
-| Version | v0.2 |
+| Version | v0.3 |
 | Status | **Draft for Brad's review** |
 | Owner | Brad (Head of Sales & Operations) |
 | Last updated | 2 Oct 2026 |
@@ -20,11 +20,11 @@
 1. captured the moment it lands;
 2. cleaned and classified (Interested, Neutral, Not interested, OOO);
 3. enriched and summarised, but only when it's worth the spend;
-4. written to **HubSpot** as the single source of truth;
+4. written to the right system of record: **ICP_Master** (Google Drive) for every non-engaged outcome, and **HubSpot**, created at that moment, only for **confirmed interest** (data sync rule, CLAUDE.md);
 5. tagged back in **Smartlead**;
 6. pushed to the owning rep in **Slack** with a one-paragraph lead summary and one-click actions.
 
-No positive reply waits in an inbox. No unsubscribe request is missed. No reply data lives anywhere but HubSpot.
+No positive reply waits in an inbox. No unsubscribe request is missed. Cold and non-engaged reply data stays in ICP_Master; HubSpot holds only engaged accounts.
 
 **How it aligns with the Phase.** An outreach reply is a **1st-Party Signal** (Phase 5A). This SOP is also the hand-off point into later Phases:
 - **6A:** a reply moves the account's Awareness Score: Considering for any engaged reply, Selecting for a meeting request.
@@ -32,6 +32,16 @@ No positive reply waits in an inbox. No unsubscribe request is missed. No reply 
 - **Phase 8:** the rep acts: sends the 3-minute AI health check survey, answers a question, or books a meeting if the prospect asks for one.
 
 **Final Output alignment.** It feeds **Signals** and **Awareness Scores** directly, and keeps **Stakeholder Maps** current: a reply from a new person, or a referral to the right person, adds a buying-committee contact.
+
+**Data sync rule (Brad, 2 Oct 2026; overrides any older wording below).**
+
+| Reply outcome | Written to | HubSpot? |
+|---|---|---|
+| **Interested** (including "yes", meeting request, survey request) | HubSpot: company + contacts created from the firm's ICP_Master row, plus the reply log, owner, task and awareness stage. The ICP_Master row gets `Pipeline status = In HubSpot` + `HubSpot company id` | **Yes: this is the entry point to HubSpot** |
+| Neutral | ICP_Master row: `Reply status`, `Last reply at`, summary in Notes. Slack alert to the rep | No |
+| Not interested | ICP_Master row: `Reply status = Not interested`, re-engage date | No |
+| OOO | ICP_Master row: `Reply status = OOO` (Smartlead restarts the lead itself) | No |
+| Unsubscribe | Smartlead Do Not Contact + paused everywhere; ICP_Master row: `Reply status = Do Not Contact` | No (if the firm is already in HubSpot from earlier interest, HubSpot is unsubscribed too) |
 
 **Blueprint source.** Brad's extract of the Workflows.io "Automated Outbound Reply Management" playbook (6 steps: capture → enrich + summary → clean → sentiment → route + tags + Slack IDs → interactive Slack). The adaptations to ERMOS rules are listed in §2.
 
@@ -55,7 +65,7 @@ No positive reply waits in an inbox. No unsubscribe request is missed. No reply 
 | Blueprint | ERMOS version | Rule behind it |
 |---|---|---|
 | Outreach tools Instantly / HeyReach | **Smartlead AI** only | Core Tech Stack |
-| Database Supabase / Airtable | **HubSpot** only | HubSpot is the single source of truth |
+| Database Supabase / Airtable | **ICP_Master** (cold and non-engaged outcomes) and **HubSpot** (confirmed interest only) | Data sync rule (Brad, 2 Oct 2026) |
 | Order: enrich (step 2) before clean and classify (steps 3–4) | **Clean → classify → then enrich only Interested and Neutral replies** | No spend on OOO, unsubscribes or "not interested" (sprawl and cost control) |
 | Claude cleans HTML and signatures | **n8n Code strips HTML, quoted threads and signatures first**; Claude only standardises what's left | Cheaper, faster and deterministic; fewer tokens per reply |
 | Claude re-enrols OOO | **Smartlead's native OOO detection and auto-reactivate** is used. n8n only records it | Use the core tool's built-in feature before building one |
@@ -68,8 +78,8 @@ No positive reply waits in an inbox. No unsubscribe request is missed. No reply 
 |---|---|---|---|
 | **Smartlead AI** | Sends campaigns; fires `EMAIL_REPLY` (and optionally `LEAD_CATEGORY_UPDATED`) webhooks; receives category updates and pause/resume calls; native OOO auto-reactivate | API key in the n8n credential store; webhook registered per campaign or globally | **Core** |
 | **n8n** | Orchestrates everything: webhook intake, cleaning, AI calls, enrichment calls, HubSpot / Smartlead writes, Slack interactivity | ERMOS n8n instance (hosting TBD); credentials for every tool here | **Core** |
-| **HubSpot** | System of record: contact, company, reply log, awareness stage, owner, tasks, deals | Private app token (CRM read/write, owners read, communication preferences) | **Core** |
-| **Clay** | Firmographic and contact enrichment, **including the email and phone waterfall**, for Interested and Neutral replies whose HubSpot record is incomplete. The phone waterfall runs for Interested replies only | Clay workspace; a table with a webhook source and an HTTP callback to n8n | **Core** (waterfall providers approved) |
+| **HubSpot** | System of record **from confirmed interest onward**: an Interested reply creates the company, contacts, reply log, awareness stage, owner, task and (on click) deal | Private app token (CRM read/write, owners read, communication preferences) | **Core** |
+| **Clay** | Fills gaps only: replies normally come from firms already enriched in SOP-2B-02 (the ICP_Master row is the source). Clay runs only if that row is missing data, and the phone waterfall runs for Interested replies with no phone | Clay workspace; a table with a webhook source and an HTTP callback to n8n | **Core** (waterfall providers approved) |
 | **Apollo** | Not used in this SOP. Apollo is the company-sourcing tool (SOP-2B-02); people and phone enrichment run through Clay | n/a | **Core** (not used here) |
 | **Claude API** | (1) standardise the cleaned reply, (2) classify sentiment with confidence, (3) write the lead summary and suggested next action | API key in the n8n credential store | **Infrastructure** |
 | **Slack** | Interactive rep notifications (buttons call back into n8n); owner Slack ID found by email | Slack app with `chat:write`, `users:read.email` and interactivity enabled (Request URL = n8n webhook) | **Infrastructure** |
@@ -89,7 +99,7 @@ No positive reply waits in an inbox. No unsubscribe request is missed. No reply 
 8. **Clean before AI:** HTML, quoted earlier messages and signature blocks are stripped in n8n **before** text goes to the Claude API, for accuracy and token cost. (Internal GTM data handling isn't restricted by ERMOS's product promises; see CLAUDE.md.)
 9. **No auto-sent human replies.** The workflow never writes or sends a reply to a prospect on its own. Any email it sends (e.g. the AI health check survey) goes out only when a rep clicks a Slack button.
 10. **Spend gates:** Clay enrichment runs only for `Interested` and `Neutral` replies with incomplete HubSpot data. Clay's phone waterfall runs only for `Interested` replies with no phone already in HubSpot.
-11. **HubSpot is written before Slack is posted.** The Slack message links to a HubSpot record that already holds the reply.
+11. **The system of record is written before Slack is posted:** HubSpot for Interested (the Slack message links to the new HubSpot record), ICP_Master for everything else (the message links to the ICP_Master row and the Smartlead thread).
 12. **Tier is never set from enrichment alone.** Clay headcount sets `ermos_account_tier = Unverified` until the website-verified count exists (SOP-3B-01). Tiers: T3 1–9, T1 10–30, T2 31–50.
 
 ## 5. Step-by-Step Procedure
@@ -139,15 +149,15 @@ No positive reply waits in an inbox. No unsubscribe request is missed. No reply 
 | Outcome | Action |
 |---|---|
 | `unsubscribe_request` in any class | **Compliance path:** Smartlead → category Do Not Contact, then pause the lead in all campaigns. HubSpot → unsubscribe from all email, Lead Status `Do Not Contact`. Log the reply. Slack: an information-only message to the owner. Stop. |
-| `OOO` | HubSpot: log the reply, set `ermos_reply_category = OOO` and `ermos_ooo_return_date`. Smartlead's native auto-reactivate handles the restart. n8n only checks the lead isn't paused. No enrichment, no Slack. Stop. |
-| `Not interested` | Smartlead → category Not Interested. HubSpot: log, Lead Status `Not interested`, `ermos_reengage_after` = reply date + 90 days. If a deal exists: Closed Lost with a coded reason (SOP-1A-01). Slack: a low-priority digest, not an alert. Stop. |
+| `OOO` | ICP_Master: log the reply (`Reply status = OOO`), set `ermos_reply_category = OOO` and `ermos_ooo_return_date`. Smartlead's native auto-reactivate handles the restart. n8n only checks the lead isn't paused. No enrichment, no Slack. Stop. |
+| `Not interested` | Smartlead → category Not Interested. ICP_Master: `Reply status = Not interested`, `ermos_reengage_after` = reply date + 90 days. If a deal exists: Closed Lost with a coded reason (SOP-1A-01). Slack: a low-priority digest, not an alert. Stop. |
 | `Neutral` | Continue to step 5 (enrichment only), then 6, 7 and 8 with a standard alert. |
 | `Interested` (including a plain "yes" to the campaign's "Reply yes" ask) | Continue to steps 5 (enrichment + phone), 6, 7 and 8 with a priority alert. |
 
 **Step 5: Enrich (only Interested and Neutral)**
-1. Look up the contact and company in HubSpot by email, and by company domain from the email.
+1. Look up the firm's **ICP_Master** row by the lead's email domain (and HubSpot, in case the firm is already engaged).
 2. If the company's vertical, verified staff count, state or LinkedIn is missing, send the domain and email to the Clay table "5A Reply Enrichment". The Clay callback returns company firmographics, a website-derived staff estimate and contact title.
-3. Write enrichment to HubSpot with `ermos_enrichment_source = Clay` and tier `Unverified` (unless the website-verified count already exists).
+3. Write enrichment to the ICP_Master row (or to HubSpot if the firm is already engaged) with `ermos_enrichment_source = Clay` and tier `Unverified` (unless the website-verified count already exists).
 4. **Interested only, and no phone in HubSpot:** the Clay row is sent with `run_phone_waterfall = true`, so Clay's third-party waterfall looks up mobile and direct numbers. When the result arrives (WF-5A-C), it's written to HubSpot and the Slack thread is updated ("📞 phone found" or "no phone"). Sourcing rule: Apollo finds companies; Clay enriches people.
 
 **Step 6: Summarise (Claude API)**
@@ -160,7 +170,7 @@ No positive reply waits in an inbox. No unsubscribe request is missed. No reply 
   - `talk_track_hint`: one line, pulled from `ermos_competitive_analysis.md` positioning when a competitor is named. Air-gapped wording for Dominion follows the strict definition.
 
 **Step 7: Route and write back**
-1. **HubSpot (written first):**
+1. **System of record (written first).** **Interested:** create or upsert the company and contacts in HubSpot from the ICP_Master row, then mark the row `In HubSpot` with the id. **Neutral:** write to the ICP_Master row only (no HubSpot). For Interested, HubSpot then gets:
    - upsert contact and company;
    - log the reply as a note on the contact and company (clean text + summary);
    - set `ermos_reply_category`, `ermos_reply_sub_labels`, `ermos_reply_confidence`, `ermos_last_reply_at`, `ermos_reply_summary`, `ermos_last_reply_id`;
@@ -280,19 +290,20 @@ Buttons are handled by WF-5A-B:
 ```
 Smartlead (EMAIL_REPLY) ──webhook──► n8n WF-5A-A
    ├─ clean (n8n Code) ─► classify (Claude API)
-   ├─ Unsubscribe ─► Smartlead DNC + pause ─► HubSpot unsubscribe ─► Slack info            [stop]
-   ├─ OOO ─► HubSpot log (Smartlead native auto-reactivate restarts later)                  [stop]
-   ├─ Not interested ─► Smartlead category ─► HubSpot log + re-engage date ─► Slack digest  [stop]
+   ├─ Unsubscribe ─► Smartlead DNC + pause ─► ICP_Master status (+ HubSpot if already engaged) ─► Slack info [stop]
+   ├─ OOO ─► ICP_Master status (Smartlead native auto-reactivate restarts later)             [stop]
+   ├─ Not interested ─► Smartlead category ─► ICP_Master status + re-engage date ─► Slack digest [stop]
    └─ Interested / Neutral
-        ├─ HubSpot lookup ─► (if gaps) Clay table ─callback─► n8n
+        ├─ ICP_Master row lookup ─► (if gaps) Clay table ─callback─► n8n
         ├─ (Interested, no phone) Clay phone waterfall ─callback─► WF-5A-C ─► HubSpot phone + Slack thread
         ├─ summary (Claude API)
-        ├─► HubSpot: contact, company, note, task, awareness stage   [system of record]
+        ├─► Interested: HubSpot created from ICP_Master row (contact, company, note, task, awareness stage); row marked In HubSpot
+        ├─► Neutral: ICP_Master row updated (no HubSpot)
         ├─► Smartlead: category, pause sequence (Interested)
         └─► Slack DM + buttons ──clicks──► n8n WF-5A-B ─► HubSpot (owner, deal) / Smartlead (AI health check survey reply, DNC)
 ```
 
-**System of record:** HubSpot. Smartlead holds sending state only. Slack is a notification surface, never a store. n8n execution data is transient.
+**Systems of record:** ICP_Master for cold and non-engaged outcomes; HubSpot from confirmed interest onward. Smartlead holds sending state only. Slack is a notification surface, never a store. n8n execution data is transient.
 
 ## 7. Quality Assurance (QA) Guidelines
 
@@ -304,7 +315,7 @@ Smartlead (EMAIL_REPLY) ──webhook──► n8n WF-5A-A
 | Unsubscribe compliance | 100% actioned in Smartlead and HubSpot within 1 hour (legal maximum 5 business days) |
 | Classification accuracy | ≥ 90% agreement with Brad's labels on a weekly random sample of 20 replies (all classes represented) |
 | Duplicate alerts | 0 |
-| HubSpot completeness | 100% of replies logged on the contact; 100% of Interested have an owner and a task |
+| Record completeness | 100% of replies logged on the ICP_Master row; 100% of Interested replies created in HubSpot with an owner and a task; 0 non-engaged records in HubSpot |
 | Rep response | Interested actioned (button click or HubSpot activity) within 1 business hour, 90% of the time |
 | Spend discipline | 0 enrichment or phone calls on OOO, unsubscribe or Not interested replies |
 
@@ -364,5 +375,6 @@ Flags post to the fallback channel and set a HubSpot task for Brad. Brad reviews
 
 | Version | Date | Author | Change |
 |---|---|---|---|
+| v0.3 | 2 Oct 2026 | Claude Code for Brad | Data sync rule: HubSpot only for Interested replies (created from the ICP_Master row); every other outcome written to ICP_Master |
 | v0.2 | 2 Oct 2026 | Claude Code for Brad | Clay waterfall replaces Apollo for phone and contact enrichment; privacy constraint removed for the internal engine; "Send booking link" replaced by "Send AI Health Check Survey"; "Reply yes" treated as Interested |
 | v0.1 | 2 Oct 2026 | Claude Code for Brad | First draft from Brad's Workflows.io 6-step blueprint, adapted to the Core Tech Stack (Smartlead, HubSpot, n8n, Clay, Apollo, Claude API, Slack) |
