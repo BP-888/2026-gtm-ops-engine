@@ -5,8 +5,8 @@
 | SOP ID | SOP-1A-01 |
 | Phase | Phase 1: Backtest and ICP Modeling |
 | Component | Component 1A: Backtest Model |
-| Version | v0.1 |
-| Status | **Draft for Brad's review** |
+| Version | v1.0 |
+| Status | **Final (baseline)**: approved structure. Pipeline stages, beta rule and reason lists are B2B SaaS best-practice baselines that Brad will tune directly in HubSpot |
 | Owner | Brad (Head of Sales & Operations) |
 | Last updated | 2 Oct 2026 |
 | Depends on | None. This is the first SOP in the playbook. |
@@ -59,12 +59,12 @@
 |---|---|---|---|
 | **HubSpot** (portal ERMOS, ap1) | System of record for deals, companies, contacts, win/loss fields and interview notes | Super admin to configure settings and properties (one-off). n8n private app token with CRM read/write scopes | **Core** |
 | **n8n** | Runs the three workflows: close capture, monthly backtest, interview capture | ERMOS n8n instance (hosting TBD), HubSpot / Google / Slack credentials | **Core** |
-| **Google Sheets: `Backtest_Dataset`** (new tab in ICP_Master) | Flat analysis table, one row per closed deal | Google service account | **Pending Ask First** (core alternative: a HubSpot custom object `Backtest Snapshot`) |
-| **Google Drive: `3. DATA / backtest/`** (new folder) | Monthly report files (CSV, JSON, Markdown) | Google service account | **Pending Ask First** (core alternative: HubSpot report + a note on a HubSpot record) |
-| **Slack** | Missing-field alerts, monthly summary, approval prompt | n8n Slack credential; channel TBD (e.g. `#gtm-pipeline`) | **Pending Ask First** (core alternative: HubSpot tasks and notifications) |
+| **Google Sheets: `Backtest_Dataset`** (new tab in ICP_Master) | Flat analysis table, one row per closed deal | Google service account | **Infrastructure** |
+| **Google Drive: `3. DATA / backtest/`** (new folder) | Monthly report files (CSV, JSON, Markdown) | Google service account | **Infrastructure** |
+| **Slack** | Missing-field alerts, monthly summary, approval prompt | n8n Slack credential; channel TBD (e.g. `#gtm-pipeline`) | **Infrastructure** |
 | **n8n Form** | Structured interview capture | Built into n8n | **Core** (part of n8n) |
-| **Claude API (Anthropic)** | Optional: drafts the narrative summary of the monthly numbers, with a strict "no claim beyond the sample" prompt | API key in the n8n credential store | **Pending Ask First** (core alternative: skip the narrative; n8n Code produces the tables) |
-| **ICP_Master (Google Sheets)** | Source of verified staff count, vertical and signals for backfilled firms | Read | **Pending Ask First** (existing working store; core alternative: Clay table → HubSpot) |
+| **Claude API (Anthropic)** | Optional: drafts the narrative summary of the monthly numbers, with a strict "no claim beyond the sample" prompt | API key in the n8n credential store | **Infrastructure** |
+| **ICP_Master (Google Sheets)** | Source of verified staff count, vertical and signals for backfilled firms | Read | **Infrastructure** |
 | **Gmail / Smartlead / website form records** | Evidence for backfilling outcomes in Mode A | Brad's accounts (manual) | Smartlead: **Core**. Gmail and website form: manual sources only, no integration built |
 
 ## 4. The Absolutes (Non-negotiables)
@@ -86,22 +86,26 @@
 
 ### Mode A: Foundation and Backfill (run once; about 1 day of Brad's time plus 30–60 minutes of each founder's)
 
-**Step A1: Fix the HubSpot account settings (Brad, 15 minutes)**
+**Step A1: Fix the HubSpot account settings (Brad, 15 minutes; approved 2 Oct 2026)**
 1. In HubSpot Settings → Account defaults, set the **time zone to Australia/Sydney**.
 2. Set **company currency to AUD**. Do this before the first deal is created: changing currency is simplest while the portal has 0 deals. If HubSpot won't allow the change, add AUD as the deal currency and record that in Open Items.
 3. Record the before and after values in the run log.
 
 **Step A2: Create the ERMOS pipeline (Brad, 20 minutes)**
-Rename or replace the default "Sales Pipeline" stages with the proposed ERMOS stages below. These are a proposal for Brad to confirm (Open Items).
+Rename the default "Sales Pipeline" to **"ERMOS New Business"** and set the stages below. This is a **B2B SaaS best-practice baseline** (approved 2 Oct 2026). Brad tunes the names and probabilities directly in HubSpot later. Every stage has exit criteria, so the backtest can see exactly where deals stall.
 
-| Stage | Meaning | Required to enter |
-|---|---|---|
-| Discovery Booked | A meeting is booked | Company vertical, source |
-| Discovery Held | First meeting completed | Buying-committee roles identified (at least DM) |
-| Trial / Beta | 30-day trial or beta running | Product (Edge / Dominion), seats estimate |
-| Proposal / SoW Sent | Commercial offer out | Seats, MRR (AUD) |
-| Closed Won | Signed agreement or paid subscription | All close fields (6.3) |
-| Closed Lost | Opportunity ended | All close fields (6.3) |
+| # | Stage | Exit criteria (what must be true to move on) | Required properties on entry | Baseline win probability |
+|---|---|---|---|---|
+| 1 | Discovery Booked | A first meeting is in the calendar | Company vertical, `ermos_deal_source` | 10% |
+| 2 | Discovery Completed (Qualified) | Pain confirmed; fits ICP (vertical, 1–50 staff); Decision Maker identified | Verified staff count and tier; DM association | 20% |
+| 3 | Solution Demo | ERMOS shown against their workflow; product direction (Edge / Dominion) agreed | `ermos_product` | 35% |
+| 4 | Trial / Pilot | 30-day trial or beta live, with agreed success criteria | `ermos_deal_category` (Trial / Beta), seats estimate | 50% |
+| 5 | Proposal / SoW Sent | Commercial offer issued | `ermos_seats`, `ermos_mrr_aud`, `ermos_pricing_basis` | 65% |
+| 6 | Negotiation / Contract Sent | Agreement out for signature | Close date | 80% |
+| 7 | Closed Won | Signed agreement, or a paid subscription active | All close fields (6.3) | 100% |
+| 8 | Closed Lost | Opportunity ended at any stage | All close fields (6.3), including `ermos_stage_lost_at` | 0% |
+
+Deals may skip stages (e.g. straight from Demo to Proposal). Skipped stages stay blank, never back-filled.
 
 **Step A3: Create the custom properties (Brad, or n8n via HubSpot API, 30 minutes)**
 Create every property in 6.3 with exactly the internal names and options given. Make the close fields **required for Closed Won and Closed Lost** in the pipeline's stage settings, so HubSpot blocks a close with missing data.
@@ -114,7 +118,7 @@ Create every property in 6.3 with exactly the internal names and options given. 
    - Smartlead replies that ended an opportunity ("not interested", "using Copilot", etc.);
    - founder-network conversations.
 2. For each one, create the company (if not already present, matched on domain), the deal, and the associated contacts with buying-committee labels (Decision Maker / Influencer / Champion).
-3. Fill every close field. Beta engagements are **Closed Won** only if the SoW was signed; otherwise keep them at Trial / Beta. Confirm each with the founder who owns it (Open Items).
+3. Fill every close field. **Beta rule (baseline):** a beta engagement with a **signed SoW** is **Closed Won** with `ermos_deal_category = Beta` and `ermos_pricing_basis = Beta`. Beta wins are reported separately from paid wins and never count towards highest-spend analysis. An **unsigned or still-running** beta stays at **Trial / Pilot**. A beta that ended without converting is **Closed Lost** with a coded reason. Confirm each with the founder who owns it.
 4. Set `ermos_backtest_include = true` only for real end-customer opportunities (not tests, partners or vendors).
 
 **Step A5: Interview the people who sold them (Brad runs it; David, Will and John Moustache answer; 30–45 minutes each)**
@@ -204,7 +208,7 @@ Every quarter, re-interview owners of the quarter's three highest-MRR wins and t
 | `ermos_win_reason_primary` | Dropdown (required at Closed Won) | `Data sovereignty / onshore` · `Client confidentiality` · `Privacy Act / compliance` · `Workflow fit` · `Price / commercial model` · `Partner trust` · `Champion-led` · `Other` |
 | `ermos_loss_reason_primary` | Dropdown (required at Closed Lost) | `No budget` · `Timing / not now` · `Chose Microsoft 365 Copilot` · `Chose public AI (ChatGPT / Claude / Gemini / Grok)` · `Built in-house / IT provider` · `Security or IT objection` · `No decision / went dark` · `Not a fit: vertical` · `Not a fit: size` · `Other` |
 | `ermos_competitor_considered` | Multi-checkbox | `Microsoft 365 Copilot` · `ChatGPT` · `Claude` · `Gemini` · `Grok` · `In-house / IT provider` · `None` · `Other` |
-| `ermos_stage_lost_at` | Dropdown | The pipeline stage before Closed Lost |
+| `ermos_stage_lost_at` | Dropdown | The pipeline stage before Closed Lost (stages 1–6 in step A2) |
 | `ermos_reason_notes` | Multi-line text | Required if the reason is `Other` |
 | `ermos_backtest_include` | Checkbox | False for tests, partners and vendors |
 
@@ -308,24 +312,22 @@ Flagged deals still go into `Backtest_Dataset` but are **excluded from metrics**
 
 ## Open Items
 
-0. **Ask First (tools outside the Core Tech Stack):** this draft uses Google Sheets, Google Drive, Slack and an optional Claude API step. For each, choose: adopt it, use an alternative, or hack it with the core stack:
-   - `Backtest_Dataset` and `Backtest_Interviews` → a HubSpot custom object, or properties snapshotted on the deal;
-   - monthly report files → a HubSpot report or dashboard, plus the report as a note on a HubSpot record;
-   - Slack alerts → HubSpot tasks and in-app notifications;
-   - Claude narrative → drop it (the numbers come from n8n anyway).
-   The SOP can't be Approved until these are decided.
-1. **HubSpot settings:** confirm the timezone and currency can be changed to Australia/Sydney and AUD, and who has super-admin rights. Changing currency is simplest while there are 0 deals.
-2. **Pipeline stages:** approve or amend the six proposed stages, including whether "Trial / Beta" is one stage or two.
-3. **Beta status:** confirm whether the law and accounting beta SoWs were signed (Closed Won, category Beta) or are still running (Trial / Beta).
-4. **Reason lists:** approve the win, loss and competitor lists in 6.3. These become the fixed vocabulary for every future report.
-5. **Junk companies:** the 487 auto-created HubSpot companies need a separate clean-up decision (archive, or tag as `not_icp`). This SOP only excludes them; it doesn't delete anything.
-6. **Sample threshold:** confirm 5 won and 5 lost per cut as the Pattern threshold.
-7. **Workflows.io:** provide the equivalent playbook page (paste its content, or allow `workflows.io` in the environment's network settings) to validate section 6.
-8. **n8n hosting, Slack channel, Claude API use:** confirm (shared with SOP-2B-01).
-9. **Customer interviews:** decide whether customer champions are also interviewed (with consent), or only founders and partners.
+**Resolved 2 Oct 2026 (Brad):**
+- **Tools:** Google Workspace, Notion, Slack and the Claude API are approved infrastructure. No tool in this SOP is pending Ask First.
+- **HubSpot settings:** the switch to AUD and Australia/Sydney is approved (step A1).
+- **Junk companies:** excluding the 487 auto-created companies is confirmed. Nothing is deleted.
+- **Pipeline stages, beta rule, reason lists:** baselines set in step A2, step A4 and section 6.3. Brad tunes the values in HubSpot.
+- **Sample threshold:** baseline of 5 won and 5 lost per cut for a Pattern.
+- **Interviews:** founders and John Moustache by default. Customer champions only with their consent, optional.
+
+**Still open:**
+1. **Super-admin:** who makes the HubSpot settings change (step A1). If HubSpot won't allow the currency change, record the workaround here.
+2. **Workflows.io:** section 6 isn't yet validated against a Workflows.io playbook (the site is blocked in this environment). Paste the equivalent page to validate it.
+3. **n8n hosting and Slack channel names** (shared with SOP-2B-01 and SOP-5A-01).
 
 ## Change Log
 
 | Version | Date | Author | Change |
 |---|---|---|---|
+| v1.0 | 2 Oct 2026 | Claude Code for Brad | Finalised: AUD/Sydney approved; 487 companies excluded; B2B SaaS baseline pipeline (8 stages with exit criteria and probabilities), beta rule and reason lists; Workspace/Slack/Claude API approved as infrastructure |
 | v0.1 | 2 Oct 2026 | Claude Code for Brad | First draft, built to the CLAUDE.md SOP Template. HubSpot state checked live (0 deals, 487 companies, default pipeline, USD / US-Eastern). Tools marked against the Core Tech Stack; non-core tools pending Ask First |

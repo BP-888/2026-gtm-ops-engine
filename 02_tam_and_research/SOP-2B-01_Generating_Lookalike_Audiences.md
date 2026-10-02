@@ -55,10 +55,10 @@ All three lookalike engines are **confirmed for the pilot** (Brad, 2 Oct 2026): 
 | **Ocean.io** | Lookalike engine B | Lookalike companies from up to 10 seed domains. Minimum similarity score (default 0.79). Filters: primary country (HQ), size, industry, technographics, keywords, domains to exclude. REST API; Clay integration. | API key in the n8n credential store | **Approved exception** (pilot only) |
 | **AI Ark** | Lookalike engine C | "AI Lookalike" company search inside Company Search. REST (JSON, `X-TOKEN` header). Also has a hosted MCP server and Clay templates. | API key in the n8n credential store | **Approved exception** (pilot only) |
 | **n8n** | Orchestration: read seeds, call engines, normalise, dedupe, write files, notify | n/a | ERMOS n8n instance (hosting TBD) | **Core** |
-| **Google Sheets: ICP_Master** | Seed source; dedupe against Master, Holding and Exclusions | Drive `1cgunhz43AF45AReQm_IOSpdoI2L7MuTnx95icTH3INk` | Google service account (read; write only to the new tabs below) | **Pending Ask First** (existing working store; core alternative: Clay table + HubSpot) |
-| **Google Sheets: Smartlead Extraction Register** | Dedupe against firms already extracted for outreach | Drive `1gmwkEl4Wa9udutJQoLfsLseOFeKLj3g783jT4aPQdJI` | Read | **Pending Ask First** (core alternative: dedupe against Smartlead and HubSpot directly via n8n) |
-| **Google Drive: `3. DATA / PIPELINE / 01_raw`** | Output hand-off folder for Phase 3 | Drive folder `1nIpskjvSHuK3dCXXubP9h_SeTXXn4bTe` (PIPELINE) | Write | **Pending Ask First** (core alternative: a Clay table as the hand-off store) |
-| **Slack** | Run summaries, flags and approval prompts | Channel TBD (e.g. `#gtm-pipeline`) | n8n Slack credential | **Pending Ask First** (core alternative: HubSpot tasks and notifications) |
+| **Google Sheets: ICP_Master** | Seed source; dedupe against Master, Holding and Exclusions | Drive `1cgunhz43AF45AReQm_IOSpdoI2L7MuTnx95icTH3INk` | Google service account (read; write only to the new tabs below) | **Infrastructure** |
+| **Google Sheets: Smartlead Extraction Register** | Dedupe against firms already extracted for outreach | Drive `1gmwkEl4Wa9udutJQoLfsLseOFeKLj3g783jT4aPQdJI` | Read | **Infrastructure** |
+| **Google Drive: `3. DATA / PIPELINE / 01_raw`** | Output hand-off folder for Phase 3 | Drive folder `1nIpskjvSHuK3dCXXubP9h_SeTXXn4bTe` (PIPELINE) | Write | **Infrastructure** |
+| **Slack** | Run summaries, flags and approval prompts | Channel TBD (e.g. `#gtm-pipeline`) | n8n Slack credential | **Infrastructure** |
 | **Claude (this repo)** | Seed-set QA, sample review support, run reports | n/a | n/a | Optional; Claude Code is the authoring tool, not a runtime step |
 
 ## 4. The Absolutes (Non-negotiables)
@@ -281,7 +281,7 @@ These set `flagged`. Flagged rows stay in `01_raw` until reviewed in the run's r
 
 ## Open Items
 
-0. **Ask First (tools outside the Core Tech Stack):** Google Sheets (ICP_Master tabs), Google Drive (`01_raw`) and Slack. Choose: adopt them, use an alternative, or hack it with the core stack (Clay tables as the seed and candidate store, n8n dedupe against HubSpot and Smartlead, HubSpot tasks instead of Slack). Clay also has an Ocean.io integration, which could cut one direct API build. Discolike, Ocean.io and AI Ark are approved exceptions for the pilot only.
+0. **Ask First: resolved 2 Oct 2026.** Google Sheets, Google Drive and Slack are approved infrastructure. Discolike, Ocean.io and AI Ark remain approved exceptions for the pilot only. (Clay's Ocean.io integration is still an option to cut one direct API build.)
 1. **Spend caps:** the A$ cap per run, per tool, for pilot and batch. Vendor cost models (credits per result) need confirming during the pilot build.
 2. **Precision and yield thresholds:** confirm or replace the proposed starting targets in section 7.
 3. **Vendor accounts:** all three are confirmed for the pilot (2 Oct). Still needed: who opens the accounts and holds the credentials.

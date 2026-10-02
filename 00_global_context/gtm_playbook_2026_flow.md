@@ -32,7 +32,7 @@ SOP files are named `SOP-NX-##_<Title_With_Underscores>.md` and saved in the rep
 
 | Component | Blueprint boxes | Tools shown | SOPs |
 |---|---|---|---|
-| **1A: Backtest Model** | Backtest Model → CRM Sync → Closed Won (Analyze Highest Spend Customers; Interview AEs and CSMs) / Closed Lost (Look for Commonalities) | HubSpot | **SOP-1A-01 Backtesting Closed-Won and Closed-Lost** *(Draft, 2 Oct 2026)* |
+| **1A: Backtest Model** | Backtest Model → CRM Sync → Closed Won (Analyze Highest Spend Customers; Interview AEs and CSMs) / Closed Lost (Look for Commonalities) | HubSpot | **SOP-1A-01 Backtesting Closed-Won and Closed-Lost** *(v1.0 Final baseline, 2 Oct 2026)* |
 | **1B: ICP Model** | Firmographics · Technographics · Account Fit Signals | n/a | SOP-1B-01 Building the ICP Model *(planned)* · SOP-1B-02 Aged Care ICP Brief *(planned, TASKS T-001)* |
 
 ## Phase 2: Broad TAM Mapping
@@ -70,7 +70,7 @@ SOP files are named `SOP-NX-##_<Title_With_Underscores>.md` and saved in the rep
 | **5B: 2nd-Party Signals** | Ad Engagements · Partner Signals · Review Sites · LinkedIn Engagement · Champion Tracking · Warm Intros | ZenABM, Fibbler · Crossbeam, PartnerStack · G2, Capterra · Jungler, Clay · Clay, UserGems · Commsor, The Swarm |
 | **5C: 3rd-Party Signals** | Technographic Signals · People Data · News · Social Signals · Job Openings · Funding Announcements | BuiltWith, Sumble · Clay, Apollo · Clay, Google News · Trigify, PhantomBuster · TheirStack, PredictLeads · Crunchbase, Pitchbook |
 
-SOPs: SOP-5A-01, SOP-5B-01 (uses `meeting_ermos_comarket.md` for partner signals), SOP-5C-01 *(all planned)*.
+SOPs: **SOP-5A-01 Automated Outbound Reply Management** *(Draft, 2 Oct 2026; also runs 6A, 7B and 7D for reply events)* · SOP-5B-01 (uses `meeting_ermos_comarket.md` for partner signals) *(planned)* · SOP-5C-01 *(planned)*.
 
 ## Phase 6: Awareness Scoring
 *Convert signal density into one stage per account.*

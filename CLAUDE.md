@@ -60,7 +60,7 @@ Every SOP uses exactly these sections, in this order. No section may be omitted;
 
 1. **Overview & Context:** what this SOP achieves and how it aligns with its Phase and the Final Output equation.
 2. **Visuals & References:** links or placeholders for the matching Figma graphics and Playbook section, plus the `00_global_context/` files it relies on.
-3. **Tools Required:** the specific software, plugins, skills and third-party apps, with each one's role, access or credential requirements, and stack status (`Core` / `Approved exception` / `Pending Ask First`; see Core Tech Stack).
+3. **Tools Required:** the specific software, plugins, skills and third-party apps, with each one's role, access or credential requirements, and stack status (`Core` / `Infrastructure` / `Approved exception` / `Pending Ask First`; see Core Tech Stack).
 4. **The Absolutes (Non-negotiables):** strict baseline requirements that must be met **before starting** and **before completing** the task.
 5. **Step-by-Step Procedure:** the chronological, functional breakdown, saying exactly how each tool is used (inputs, settings, outputs).
 6. **Data Flow & Automation:** the expected **n8n** workflows (trigger, nodes, schedule, credentials, error handling, human-approval gates) and how data moves between systems (source → transform → destination, field-level schema, system of record).
@@ -74,7 +74,9 @@ Every SOP uses exactly these sections, in this order. No section may be omitted;
 Close every SOP with **Open Items** (decisions or facts still needed) and a **Change Log**.
 
 ## CORE TECH STACK (Brad, 2 Oct 2026)
-These are the tools ERMOS uses and pays for. They are the **default for every workflow and SOP**:
+These are the tools ERMOS uses and pays for. They are the **default for every workflow and SOP**.
+
+**GTM tools**
 
 | Tool | Role |
 |---|---|
@@ -84,17 +86,31 @@ These are the tools ERMOS uses and pays for. They are the **default for every wo
 | **Apollo** | Data sourcing and contact info |
 | **n8n** | Automation plumbing and API routing |
 
-**Approved exceptions (outside the core stack, approved by Brad):**
+**Standard infrastructure (approved, Brad 2 Oct 2026)**
+
+| Tool | Role |
+|---|---|
+| **Google Workspace** (Sheets, Drive, Gmail) | Working sheets, file hand-offs, email |
+| **Notion** | Ermos HQ: rules, decisions, SOP governance |
+| **Slack** | Team notifications and interactive approvals |
+| **Claude API** | AI steps inside n8n workflows (summarise, clean, classify) |
+
+**Approved exceptions (outside the stack, approved by Brad):**
 * Discolike, Ocean.io, AI Ark: **pilot only**, for the 30-record Australian lookalike accuracy test in SOP-2B-01 (2 Oct 2026). Adopting any of them after the pilot needs a new Ask First decision.
 
+### The spirit of the rule: no SaaS sprawl
+Brad isn't against tools; he's against **SaaS sprawl**, meaning a workflow stitched together from many single-use tools. The goal is to orchestrate as many outcomes as possible with the core stack and standard infrastructure. **Always try to build the solution with core logic first** (e.g. Apollo → Clay via n8n → HubSpot → Smartlead). When a new tool is genuinely needed, don't assume the answer is no: give Brad the choice.
+
 ### The "Ask First" rule
-If an SOP draft, a Workflows.io playbook, or Claude's own logic suggests a tool **not** in the Core Tech Stack or the approved exceptions:
-1. **Do not add it to the SOP.** Write the step using the core stack where possible.
-2. **Pause and flag the capability gap to Brad:** what capability is missing, which tool was suggested, and how the core stack could cover it instead (e.g. Apollo → Clay via n8n → HubSpot → Smartlead).
-3. **Ask Brad to choose:** (a) adopt the suggested tool, (b) use an alternative he prefers, or (c) hack it with the existing core stack.
+If an SOP draft, a Workflows.io playbook, or Claude's own logic suggests a tool **not** in the Core Tech Stack, standard infrastructure or approved exceptions:
+1. **Don't add it to the SOP.** Write the step with the core stack where that's genuinely workable.
+2. **Flag the capability gap to Brad:** what capability is missing, which tool was suggested, what it would replace or add, and the best core-stack alternative, with its trade-off.
+3. **Ask Brad to choose:** (a) adopt the suggested tool, (b) use an alternative he prefers, or (c) hack it with the existing stack.
 4. Record his answer in Notion 05 Decisions Log and, if approved, add the tool to the approved exceptions above.
 
-Every SOP's **Tools Required** table marks each tool as `Core`, `Approved exception` or `Pending Ask First`. An SOP can't be Approved while any tool is still `Pending Ask First`.
+This also applies to **data providers reached through a core tool**: e.g. third-party providers inside a Clay waterfall count as new providers and need Ask First, even though they're billed through Clay.
+
+Every SOP's **Tools Required** table marks each tool as `Core`, `Infrastructure`, `Approved exception` or `Pending Ask First`. An SOP can't be Approved while any tool is still `Pending Ask First`.
 
 ## TECHNICAL REFERENCE BASELINE: WORKFLOWS.IO (Brad, 2 Oct 2026)
 The 9-Phase hierarchy, the business rules and the SOP template above are the **What and Why**. Workflows.io (`workflows.io/workflows`) is the **How**: the technical reference library for every SOP's **Data Flow & Automation** section (and the tool steps in the Procedure).
