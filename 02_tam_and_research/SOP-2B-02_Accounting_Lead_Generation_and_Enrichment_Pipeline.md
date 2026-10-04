@@ -5,7 +5,7 @@
 | SOP ID | SOP-2B-02 |
 | Phase | Phase 2: Broad TAM Mapping (sprint pipeline running through Phases 3, 4 and 8) |
 | Component | Sourcing for Phase 2 (Google Maps listings; the firmographic-fit side of the map, 2A, is used here under the 2B sprint ID Brad assigned). Also executes **3A/3B** (verify and tier), **4B** (contact sourcing) and **8A** (Automated Outbound, 1:1). **4C (CRM upload) is deliberately not part of this pipeline**: cold records never enter HubSpot |
-| Version | v0.3 |
+| Version | v0.4 |
 | Status | **Draft for Brad's review**: Parramatta pilot passed (2 Oct 2026). Ready to run wave 1 once Apify access and caps are set |
 | Owner | Brad (Head of Sales & Operations) |
 | Last updated | 2 Oct 2026 |
@@ -138,8 +138,18 @@ Needed: 6,000 − 700 = **5,300 net new leads ÷ ~0.42 ≈ 12,500 raw listings**
    - match on **domain** first;
    - then on **normalised company name** (lowercase; strip "Pty Ltd", "& Co" and punctuation), to catch firms listed under another domain.
    Any match is suppressed, with the reason (`in_master`, `in_holding`, `in_exclusions`) logged per row.
-3. Rows without a domain go to `02_enriched/no_domain_<run>.csv`. They're held, not sent to Clay, until Brad decides whether Clay should hunt for their domains (it costs credits).
-4. Push the remaining **net-new** rows to the Clay table webhook in chunks (e.g. 100 per minute). Move the source file to `_processed/`.
+3. **Review-volume confidence check** (Brad, 4 Oct 2026; `scripts/review_confidence.py`). Each listing's Google rating is weighed against its review count:
+
+   | Band | Rule | Effect on the Clay queue |
+   |---|---|---|
+   | **Strong** | ≥ 4.5 stars **and** ≥ 50 reviews | Priority 1 |
+   | **Moderate** | Everything between the other bands | Priority 2 |
+   | **Questionable** | < 10 reviews (even at 5.0 stars), or no reviews at all. Low statistical weight or a dormant listing | Priority 3 (last), flag `L11` |
+   | **Poor** | < 3.0 stars with ≥ 10 reviews | **Held** for Brad, no Clay spend, flag `L12` |
+
+   It sets **queue order and caution, never the tier** (tiers come only from staff counts). Under a credit budget, Strong firms are enriched first.
+4. Rows without a domain go to `02_enriched/no_domain_<run>.csv`. They're held, not sent to Clay, until Brad decides whether Clay should hunt for their domains (it costs credits).
+5. Push the remaining **net-new** rows to the Clay table webhook, **in priority order (1 → 3)**, in chunks (e.g. 100 per minute). Move the source file to `_processed/`.
 
 ### Stage 3: Enrich, tier and source contacts (Clay, automatic per row)
 
@@ -200,7 +210,7 @@ Needed: 6,000 − 700 = **5,300 net new leads ÷ ~0.42 ≈ 12,500 raw listings**
 | 1 | Google Drive Trigger (new file in `PIPELINE/01_raw`, name starts `accounting_`) | Start on each scraper output |
 | 2 | Drive: download CSV + `.run.json` · Code: schema check | Abort and alert if the 18 columns aren't present |
 | 3 | Google Sheets: read **ICP_Master** Master, Holding and Exclusions (domain + firm name columns only) | Build the dedupe set |
-| 4 | Code: cross-file dedupe + ICP_Master match (domain, then normalised name) + split (to Clay / no-domain hold / suppressed) | Reasons logged per row |
+| 4 | Code: cross-file dedupe + ICP_Master match (domain, then normalised name) + **review-volume confidence band** (same logic as `scripts/review_confidence.py`) + split (to Clay by priority / no-domain hold / Poor hold / suppressed) | Reasons logged per row |
 | 5 | Loop (chunks of 100) → HTTP: Clay table webhook | Rate-limited feed into Clay |
 | 6 | Drive: move file to `_processed/` · write `02_enriched/suppressed_<run>.csv` and `no_domain_<run>.csv` | Audit trail |
 | 7 | Slack: run summary (rows in, suppressed by tab, held, sent to Clay) | n/a |
@@ -299,6 +309,7 @@ A wrapper for the scraper that:
 | Metric | Target |
 |---|---|
 | Net-new rate after dedupe | Reported per wave. Every suppressed row has a tab reason |
+| Review confidence | Every row has a band (Strong / Moderate / Questionable / Poor). The band mix is reported per wave; Poor firms never reach Clay |
 | Net leads per raw listing | ≥ 0.40 (re-set after wave 1) |
 | Tier accuracy | ≥ 90% on a weekly sample of 20 firms, checked by Brad against the evidence URL |
 | ICP accuracy | ≥ 95% of enrolled firms are genuine independent AU accounting practices of 1–50 staff (same sample) |
@@ -310,6 +321,7 @@ A wrapper for the scraper that:
 | Sprint progress | Leads Ready + Enrolled tracked weekly against 6,000 (from the ICP_Master Pipeline status column) |
 
 ### What "Bad" Looks Like
+- Treating a 5.0-star listing with 1 review as strong social proof, or spending Clay credits on Questionable firms before Strong ones.
 - Paying Clay to enrich a firm already in ICP_Master, including one previously rejected in Exclusions.
 - Bookkeepers, tax-return franchises, financial planners or software vendors tagged as accounting practices.
 - Tiers from vendor headcount instead of the firm's own team page.
@@ -342,6 +354,8 @@ These go to the **Holding** tab with a reason. Brad reviews Holding twice a week
 | `L08_no_domain` | The listing has no website | Held file. Brad decides whether Clay should hunt for a domain |
 | `L09_cap_reached` | Apify or Clay wave budget reached | Stop and report. Never raise the cap without Brad's number |
 | `L10_capacity` | Ready contacts exceed sending capacity | Trim the batch; the rest wait for the next day |
+| `L11_low_review_signal` | Fewer than 10 Google reviews (or none), whatever the star rating | Enriched last. Brad sees the flag in the batch approval sample. Not excluded on this alone |
+| `L12_poor_reputation` | Under 3.0 stars with 10+ reviews | Held before Clay (no credits spent). Brad decides whether it's still worth contacting |
 
 ---
 
@@ -362,6 +376,7 @@ These go to the **Holding** tab with a reason. Brad reviews Holding twice a week
 
 | Version | Date | Author | Change |
 |---|---|---|---|
+| v0.4 | 4 Oct 2026 | Claude Code for Brad | Review-volume confidence check (Strong / Moderate / Questionable / Poor) added to Stage 2; sets Clay queue order; Poor held before Clay; flags L11 and L12 |
 | v0.3 | 2 Oct 2026 | Claude Code for Brad | **Data sync rule:** ICP_Master is the master database for the cold pipeline; HubSpot is bypassed (engaged accounts only, via SOP-5A-01). Dedupe strictly against ICP_Master; outcomes written to its Master / Holding / Exclusions tabs; Smartlead fed from ICP_Master. Pilot results recorded; batch runner added |
 | v0.2 | 2 Oct 2026 | Claude Code for Brad | Cost-first architecture from the Workflows.io TAM Mapping Playbook; contacts capped at 1–2 decision-makers via Apollo inside Clay's waterfall; 9-mailbox capacity maths |
 | v0.1 | 2 Oct 2026 | Claude Code for Brad | First draft |

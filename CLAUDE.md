@@ -116,6 +116,14 @@ This also applies to **data providers reached through a core tool**, with one st
 * **Cost-first order (Workflows.io TAM Mapping Playbook):** cheap sourcing → dedupe against ICP_Master → company enrichment and tiering of net-new firms only → surgical contact sourcing (1–2 decision-makers per company) → ICP_Master → Smartlead. Never spend enrichment credits on a record that hasn't passed the cheaper steps.
 * Google Maps listings (Apify, `leadgen-google-scraper`) are an approved raw-source input for local-business verticals. They feed Clay like any other company list.
 
+### Review-volume confidence check (Brad, 4 Oct 2026)
+Every triage of scraped listings weighs the Google star rating against the review count (`scripts/review_confidence.py`):
+* **Strong:** ≥ 4.5 stars **and** ≥ 50 reviews. Robust social proof; enrich first.
+* **Moderate:** everything between the other bands.
+* **Questionable:** < 10 reviews (even at 5.0 stars), or no reviews. Low statistical weight or a dormant listing; enrich last and flag it.
+* **Poor:** < 3.0 stars with ≥ 10 reviews. Hold before enrichment; Brad decides.
+It orders the enrichment queue and adds caution. It **never sets the tier** (tiers come only from staff counts).
+
 ### Data sync rule: cold vs engaged (Brad, 2 Oct 2026)
 * **ICP_Master (Google Drive) is the single source of truth and the only master database for the cold outbound pipeline.** Dedupe runs against it. Enriched, tiered companies and their decision-makers are written to it. Smartlead is fed from it.
 * **HubSpot is strictly for engaged accounts.** A company and its contacts enter HubSpot only when they show **confirmed interest** (e.g. an Interested reply in Smartlead, a completed AI health check survey, a meeting request). Cold enriched companies and contacts are **never** pushed to HubSpot.

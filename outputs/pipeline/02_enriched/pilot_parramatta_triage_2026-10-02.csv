@@ -1,20 +1,20 @@
-firm_name,domain,google_category,rating,reviews_count,icp_master_match,precheck_flag,precheck_note,next_step
-Tax Save | Tax Accountants Parramatta,taxsave.com.au,Accountant,5,42,none,,,Send to Clay
-EKNIK Chartered Accountants,eknik.com.au,Chartered accountant,5,117,none,,,Send to Clay
-Ray Accounting Group Vijay Dantu & Co,rayaccountinggroup.com.au,Tax preparation service,4.6,18,none,,,Send to Clay
-Clear Tax Accountants Parramatta,cleartax.com.au,Accountant,5,97,none,check_size,Multi-location brand (/locations/sydney); may be over 50 staff,Send to Clay (size check decides)
-Beyond Taxation and Business Services,beyondtaxation.com.au,Tax consultant,5,60,none,,,Send to Clay
-Accurate Accounting & Professional Services Pty Ltd,accurateaccountingservices.com.au,Bookkeeping service,4.7,29,none,L03_icp_unsure,Google category is Bookkeeping service,Hold for Brad
-C&N Accountants,cnaccountants.com.au,Accountant,4.9,62,none,,,Send to Clay
-ATX Taxation & Accounting Pty Ltd,atxaccounting.com.au,Tax preparation service,5,204,none,,,Send to Clay
-Smarter Advisory & Accounting,smartbaa.com.au,Accountant,4.8,22,"Exclusions (name; stored as smarteraa.com.au): national network roll-up, batch 2026-08-14",L07_name_match,Same firm under a second domain; excluded as network roll-up,Suppress (excluded network)
-Silver Peacock & Co - Tradies Accountant,silverpeacock.com.au,Accountant,4.8,57,none,,,Send to Clay
-Green Taxation,,Tax consultant,5,60,none,L08_no_domain,No website listed,Hold (no domain to enrich)
-CleanSlate Accounting Services,cleanslate.net.au,Bookkeeping service,4.9,118,none,L03_icp_unsure,Google category is Bookkeeping service,Hold for Brad
-All Pro Accounting,allproaccounting.com.au,Tax preparation service,5,1,none,,,Send to Clay
-Tax Solutions NSW,taxsolutionsnsw.com.au,Accounting firm,4.3,11,none,,,Send to Clay
-Perfect Accounting & Tax parramatta,perfectaccounting.com.au,Accountant,,,none,,,Send to Clay
-Crypto Accountants,australia.cryptoaccountants.live,Accountant,5,6,none,L04_network_or_virtual,Online niche brand sharing an address with Perfect Accounting; possibly a virtual office,Hold for Brad
-Sanath Accounting & Taxation Services,sanathaccounting.com,Accountant,5,42,none,,,Send to Clay
-ATB Partners,atb.net.au,Certified public accountant,4.8,49,none,,,Send to Clay
-Accounting Hands,accountinghands.com.au,Accountant,5,35,"Holding (domain): Tier C, 3 staff, below-floor hold, batch 2026-08-13",suppressed_in_holding,Already in ICP_Master Holding,Suppress (already known)
+firm_name,domain,google_category,rating,reviews_count,icp_master_match,precheck_flag,precheck_note,next_step,review_confidence,review_confidence_reason,clay_priority
+Tax Save | Tax Accountants Parramatta,taxsave.com.au,Accountant,5,42,none,,,Send to Clay,Moderate,5 stars across 42 reviews,2
+EKNIK Chartered Accountants,eknik.com.au,Chartered accountant,5,117,none,,,Send to Clay,Strong,5 stars across 117 reviews,1
+Ray Accounting Group Vijay Dantu & Co,rayaccountinggroup.com.au,Tax preparation service,4.6,18,none,,,Send to Clay,Moderate,4.6 stars across 18 reviews,2
+Clear Tax Accountants Parramatta,cleartax.com.au,Accountant,5,97,none,check_size,Multi-location brand (/locations/sydney); may be over 50 staff,Send to Clay (size check decides),Strong,5 stars across 97 reviews,1
+Beyond Taxation and Business Services,beyondtaxation.com.au,Tax consultant,5,60,none,,,Send to Clay,Strong,5 stars across 60 reviews,1
+Accurate Accounting & Professional Services Pty Ltd,accurateaccountingservices.com.au,Bookkeeping service,4.7,29,none,L03_icp_unsure,Google category is Bookkeeping service,Hold for Brad,Moderate,4.7 stars across 29 reviews,
+C&N Accountants,cnaccountants.com.au,Accountant,4.9,62,none,,,Send to Clay,Strong,4.9 stars across 62 reviews,1
+ATX Taxation & Accounting Pty Ltd,atxaccounting.com.au,Tax preparation service,5,204,none,,,Send to Clay,Strong,5 stars across 204 reviews,1
+Smarter Advisory & Accounting,smartbaa.com.au,Accountant,4.8,22,"Exclusions (name; stored as smarteraa.com.au): national network roll-up, batch 2026-08-14",L07_name_match,Same firm under a second domain; excluded as network roll-up,Suppress (excluded network),Moderate,4.8 stars across 22 reviews,
+Silver Peacock & Co - Tradies Accountant,silverpeacock.com.au,Accountant,4.8,57,none,,,Send to Clay,Strong,4.8 stars across 57 reviews,1
+Green Taxation,,Tax consultant,5,60,none,L08_no_domain,No website listed,Hold (no domain to enrich),Strong,5 stars across 60 reviews,
+CleanSlate Accounting Services,cleanslate.net.au,Bookkeeping service,4.9,118,none,L03_icp_unsure,Google category is Bookkeeping service,Hold for Brad,Strong,4.9 stars across 118 reviews,
+All Pro Accounting,allproaccounting.com.au,Tax preparation service,5,1,none,L11_low_review_signal; L11_low_review_signal,,Send to Clay,Questionable,only 1 review(s) behind 5 stars,3
+Tax Solutions NSW,taxsolutionsnsw.com.au,Accounting firm,4.3,11,none,,,Send to Clay,Moderate,4.3 stars across 11 reviews,2
+Perfect Accounting & Tax parramatta,perfectaccounting.com.au,Accountant,,,none,L11_low_review_signal; L11_low_review_signal,,Send to Clay,Questionable,no Google reviews,3
+Crypto Accountants,australia.cryptoaccountants.live,Accountant,5,6,none,L04_network_or_virtual,Online niche brand sharing an address with Perfect Accounting; possibly a virtual office,Hold for Brad,Questionable,only 6 review(s) behind 5 stars,
+Sanath Accounting & Taxation Services,sanathaccounting.com,Accountant,5,42,none,,,Send to Clay,Moderate,5 stars across 42 reviews,2
+ATB Partners,atb.net.au,Certified public accountant,4.8,49,none,,,Send to Clay,Moderate,4.8 stars across 49 reviews,2
+Accounting Hands,accountinghands.com.au,Accountant,5,35,"Holding (domain): Tier C, 3 staff, below-floor hold, batch 2026-08-13",suppressed_in_holding,Already in ICP_Master Holding,Suppress (already known),Moderate,5 stars across 35 reviews,
