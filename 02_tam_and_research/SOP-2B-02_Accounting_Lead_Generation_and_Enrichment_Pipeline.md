@@ -60,6 +60,7 @@ Needed: 6,000 − 700 = **5,300 net new leads ÷ ~0.42 ≈ 12,500 raw listings**
 - **ICP_Master dedupe (full read of Master 1,219 / Holding 353 / Exclusions 381 rows):** 2 suppressed.
   - Accounting Hands: already in Holding (3 staff, below-floor hold).
   - Smarter Advisory & Accounting: a **name match** in Exclusions under a different domain (`smarteraa.com.au`, network roll-up). This shows why name matching is needed alongside domain matching.
+- **Review confidence (rule added 4 Oct):** of the 13 for Clay, Strong 6 (EKNIK, C&N, ATX, Silver Peacock, Beyond Taxation, Clear Tax) · Moderate 5 (Tax Save, Sanath, ATB Partners, Ray Accounting, Tax Solutions NSW) · Questionable 2 (All Pro Accounting: 1 review; Perfect Accounting: none) · Poor 0.
 - **Net result:** 13 net-new to Clay, 3 held (2 bookkeepers, 1 possible virtual office), 1 with no domain.
 - Files: `outputs/pipeline/01_raw/accounting_parramatta_2026-10-02_1836.csv` (+ `.run.json`), and `outputs/pipeline/02_enriched/pilot_parramatta_triage_2026-10-02.csv`.
 
